@@ -31,6 +31,41 @@ export const IndexForm = styled.div `
     margin-top: 30px;
 `
 
+export const IndexButtons = styled.div `
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+`
+
+export const IndexButton = styled.button `
+    font-family: Overpass;
+    font-size: 20px;
+    text-align: left;
+    color: #8B775A;
+
+    background-color: #FFFFFF;
+    border: solid 2px #8B775A;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    &:hover {
+        color: #FFFFFF;
+        background-color: #8B775A;
+    }
+
+    ${(props) => props.active && `
+        color: #FFFFFF;
+        background-color: #8B775A;
+
+        &:hover {
+            color: #8B775A;
+            background-color: #FFFFFF;
+        }
+    `}
+`
+
 export const IndexFormField = styled.div `
     margin-bottom: 20px;
 

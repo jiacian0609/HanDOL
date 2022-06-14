@@ -39,7 +39,7 @@ router.post('/signup', async function (req, res, next) {
   if (!email) return res.status(400).send({message: 'Please enter your email.'});
   if (!password) return res.status(400).send({message: 'Please enter your password.'});
 
-  const hashedPassword = await bcrypt.hash(password);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     await db.connect();
@@ -69,7 +69,7 @@ router.post('/signup', async function (req, res, next) {
     const result = await users.insertOne(doc);
     console.log(`A document was inserted with the _id: ${result.insertedId}`);
 
-    res.status(200).send({message: 'Successfully signed up'});
+    res.status(200).send({message: 'Successfully signed up.'});
   }
   catch (err) {
     console.log(err);
