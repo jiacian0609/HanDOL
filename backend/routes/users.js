@@ -19,7 +19,7 @@ router.get('/', async function(req, res, next) {
     db.close();
   }*/
 
-  res.send({message: 'respond with a resource'});
+  res.status(200).send({message: 'respond with a resource'});
 });
 
 /* POST sign up */
@@ -35,9 +35,9 @@ router.post('/signup', async function (req, res, next) {
   const password = req.body.password;
 
   // check if all the information is filled
-  if (!username) return res.send({message: 'Please enter your username.'});
-  if (!email) return res.send({message: 'Please enter your email.'});
-  if (!password) return res.send({message: 'Please enter your password.'});
+  if (!username) return res.status(400).send({message: 'Please enter your username.'});
+  if (!email) return res.status(400).send({message: 'Please enter your email.'});
+  if (!password) return res.status(400).send({message: 'Please enter your password.'});
 
   const hashedPassword = await bcrypt.hash(password);
 
@@ -52,13 +52,13 @@ router.post('/signup', async function (req, res, next) {
     let query = { username: username };
     let options = { projection: { _id: 1 } };
     let user = await users.findOne(query, options); 
-    if (user) return res.send({message: 'The username has been signed up already.'});
+    if (user) return res.status(400).send({message: 'The username has been signed up already.'});
     
     // check if the email has been signed up
     query = { email: email };
     options = { projection: { _id: 1 } };
     user = await users.findOne(query, options); 
-    if (user) return res.send({message: 'The email has been signed up already.'});
+    if (user) return res.status(400).send({message: 'The email has been signed up already.'});
 
     const doc = {
       username: username,
@@ -68,9 +68,8 @@ router.post('/signup', async function (req, res, next) {
 
     const result = await users.insertOne(doc);
     console.log(`A document was inserted with the _id: ${result.insertedId}`);
-    
-    res.status(200);
-    res.send({message: 'Successfully signed up'});
+
+    res.status(200).send({message: 'Successfully signed up'});
   }
   catch (err) {
     console.log(err);
@@ -95,11 +94,10 @@ router.post('/signin', async function (req, res, next) {
   const account = req.body.account;
   const password = req.body.password;
 
-  // check if username of email is filled
-  if (!account) return res.send({message: 'Please enter your username or email.'});
+  // check if all the information is filled
+  if (!account) return res.status(400).send({message: 'Please enter your username or email.'});
+  if (!password) return res.status(400).send({message: 'Please enter your password.'});
 
-  let conn;
-  let msg = "";
   let token;
 
   try {
@@ -117,7 +115,7 @@ router.post('/signin', async function (req, res, next) {
       // check if the email has been signed up
       query = { email: account };
       user = await users.findOne(query, options);
-      if (!user) return res.send({message: 'The username or email hasn\'t been signed up.'});
+      if (!user) return res.status(400).send({message: 'The username or email hasn\'t been signed up.'});
     }
 
     // compare password
@@ -131,17 +129,17 @@ router.post('/signin', async function (req, res, next) {
           }); 
       })
     
-    if (token) return res.send({
-      message: 'Sign in successfully',
+    if (token) return res.status(200).send({
+      message: 'Sign in successfully.',
       token: token
     });
-    else return res.send({message: 'Wrong password.'});
+    else return res.status(400).send({message: 'Wrong password.'});
   }
   catch (err) {
-      console.log(err);
+    console.log(err);
   }
   finally {
-      if (conn) return conn.end();
+    await db.close();
   }
 });
 
