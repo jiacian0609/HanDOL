@@ -78,4 +78,30 @@ router.get('/albums/:group', async function(req, res, next) {
   }
 });
 
+/* GET version */
+router.get('/versions/:album', async function(req, res, next) {
+  const version = req.params.album;
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const versions = database.collection('versions');
+
+    const query = { a_id: Number(version) };
+    // const options = { projection: { _id: 1 } };
+    const versionList = await versions.find(query).toArray();
+
+    res.status(200).send({
+      message: 'successfully get version list',
+      versions: versionList
+    });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
 module.exports = router;
