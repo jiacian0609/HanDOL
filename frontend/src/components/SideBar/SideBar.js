@@ -2,6 +2,11 @@ import { Link } from 'react-router-dom';
 import { SideBarWrapper, SideBarTopButtons, SideBarDownButtons, SideBarField, SideBarButton, SideBarTitle, SideBarText } from './SideBar-style.js';
 
 export default function SideBar({showSideBar, setShowSideBar}) {
+    function handleSignOut() {
+        window.localStorage.clear();
+        window.location.href = '/';
+    }
+
     return (
         <SideBarWrapper show={showSideBar}>
             <SideBarTopButtons>
@@ -31,7 +36,7 @@ export default function SideBar({showSideBar, setShowSideBar}) {
                     <SideBarButton src='feedback' />
                     <SideBarText show={showSideBar}>Feedback</SideBarText>
                 </SideBarField>
-                <SideBarField>
+                <SideBarField onClick={() => handleSignOut()}>
                     <SideBarButton src='signout' />
                     <SideBarText show={showSideBar}>Sign Out</SideBarText>
                 </SideBarField>
