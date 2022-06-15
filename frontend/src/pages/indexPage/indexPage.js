@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useState } from 'react';
 import './indexPage-style.js';
-import { IndexWrapper, IndexTitle, IndexDivider, IndexForm, IndexButtons, IndexButton, IndexFormField, IndexText, IndexInput, IndexSubmit } from './indexPage-style.js';
+import { IndexWrapper, IndexTitle, IndexDivider, IndexForm, IndexButtons, IndexButton, IndexFormField, IndexText, IndexInput } from './indexPage-style.js';
+import SubmitButton from '../../components/SubmitButton';
 
 export default function Index() {
     const [signIn, setSignIn] = useState(true);
@@ -82,7 +83,7 @@ export default function Index() {
                     <IndexInput id='password' type='password' />
                 </IndexFormField>
             </IndexForm>
-            <IndexSubmit onClick={()=> handleSubmit()} />
+            <SubmitButton handleSubmit={handleSubmit} />
         </IndexWrapper>
     )
 }

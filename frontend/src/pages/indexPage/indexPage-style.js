@@ -89,17 +89,3 @@ export const IndexInput = styled.input `
     border-radius: 10px;
     box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.2);
 `
-
-export const IndexSubmit = styled.button `
-    width: 30px;
-    height: 30px;
-    background-image: url('/icons/check.png');
-    background-color: inherit;
-    background-size: cover;
-    border: none;
-    cursor: pointer;
-
-    &:hover {
-        background-image: url('/icons/check-hover.png');
-    }
-`
