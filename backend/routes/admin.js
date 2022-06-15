@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const multer = require('multer');
+const fs = require('fs');
 const dotenv = require('dotenv').config({path: './process.env'});
 const express = require('express');
 const router = express.Router();
@@ -15,10 +16,10 @@ router.get('/', async function(req, res, next) {
 
 /* POST addcard */
 const storage = multer.diskStorage({
-  destination : function(req, file, cb) {
+  destination: function(req, file, cb) {
       cb(null, 'uploads');
   },
-  filename : function(req, file, cb) {
+  filename: function(req, file, cb) {
       cb(null, file.fieldname + '-' + Date.now() + '.jpg');
   }
 });
@@ -41,23 +42,27 @@ router.get('/addcard', async function (req, res, next) {
 });
 
 router.post('/addcard', upload.single('image'), async function (req, res) {
-  console.log(req.file);
+  // console.log(upload);
+  // console.log(req.file);
 
   const group = req.body.group;
   const member = req.body.member;
   const album = req.body.album;
   const version = req.body.version;
-  const image = req.file.path;
 
   // check if all the information is filled
   if (!group) return res.status(400).send({message: 'Please enter the group.'});
   if (!member) return res.status(400).send({message: 'Please enter the member.'});
   if (!album) return res.status(400).send({message: 'Please enter the album.'});
   if (!version) return res.status(400).send({message: 'Please enter the version.'});
-  if (!image) return res.status(400).send({message: 'Please upload the image.'});
+  if (!req.file) return res.status(400).send({message: 'Please upload the image.'});
 
-  console.log(image);
-
+  const img = fs.readFileSync(req.file.path);
+  const encode_image = img.toString('base64'); //將圖片做base64編碼
+  const finalImg = {
+    contentType: req.file.mimetype,
+    image: Buffer.from(encode_image, 'base64')
+  };
 
   try {
     await db.connect();
@@ -77,7 +82,7 @@ router.post('/addcard', upload.single('image'), async function (req, res) {
       member: member,
       album: album,
       version: version,
-      image: image
+      image: finalImg
     };
 
     const result = await cards.insertOne(doc);
