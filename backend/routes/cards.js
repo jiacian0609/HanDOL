@@ -3,7 +3,7 @@ const router = express.Router();
 
 const db = require('../db');  
 
-/* GET card list */
+/* GET all card list */
 router.get('/', async function(req, res, next) {
   try {
     await db.connect();
@@ -11,10 +11,33 @@ router.get('/', async function(req, res, next) {
 
     const database = db.db('HanDOL');
     const cards = database.collection('cards');
-
-    // const query = { group: group, member: member, album: album, version: version };
-    // const options = { projection: { _id: 1 } };
     const cardList = await cards.find().toArray();
+
+    res.status(200).send({
+      message: 'successfully get card list',
+      cards: cardList
+    });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* GET card list by query*/
+router.post('/query', async function(req, res, next) {
+  const query = req.body;
+  // console.log('query: ', query);
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const cards = database.collection('cards');
+
+    // const options = { projection: { _id: 1 } };
+    const cardList = await cards.find(query).toArray();
 
     res.status(200).send({
       message: 'successfully get card list',
@@ -54,7 +77,7 @@ router.get('/groups', async function(req, res, next) {
 /* GET member */
 router.get('/members/:group', async function(req, res, next) {
   const group = req.params.group;
-  console.log('/members/:group', group);
+  // console.log('/members/:group', group);
 
   try {
     await db.connect();
@@ -81,7 +104,7 @@ router.get('/members/:group', async function(req, res, next) {
 /* GET album */
 router.get('/albums/:group', async function(req, res, next) {
   const group = req.params.group;
-  console.log('/albums/:group', group);
+  // console.log('/albums/:group', group);
 
   try {
     await db.connect();

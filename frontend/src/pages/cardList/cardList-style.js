@@ -17,7 +17,12 @@ export const CardListWrapper = styled.div `
 `
 
 export const CardListSelectors = styled.div `
+    width: 300px;
     margin: 50px 0 0 50px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 export const CardListSelectorField = styled.div `
@@ -35,7 +40,7 @@ export const CardListSelectorName = styled.div `
 `
 
 export const CardListSelector = styled.select `
-    width: 280px;
+    width: 200px;
     padding: 3px 2px;
 
     font-family: Overpass;
@@ -44,4 +49,8 @@ export const CardListSelector = styled.select `
     color: #000000;
 
     border-radius: 10px;
+`
+
+export const CardListListWrapper = styled.div `
+
 `

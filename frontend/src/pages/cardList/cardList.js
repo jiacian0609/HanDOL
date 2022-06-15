@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState,useEffect  } from 'react';
 import './cardList-style.js';
-import { CardListWrapper, CardListSelectors, CardListSelectorField, CardListSelectorName, CardListSelector } from './cardList-style.js';
+import { CardListWrapper, CardListSelectors, CardListSelectorField, CardListSelectorName, CardListSelector, CardListListWrapper } from './cardList-style.js';
 import SubmitButton from '../../components/SubmitButton';
 
 export default function CardList() {
@@ -13,7 +13,7 @@ export default function CardList() {
     const [album, setAlbum] = useState();
     const [versions, setVersions] = useState([]);
     const [version, setVersion] = useState();
-    const [card, setCards] = useState([]);
+    const [cards, setCards] = useState([]);
 
     /* get group list */
     useEffect(() => {
@@ -83,7 +83,7 @@ export default function CardList() {
             query = {group: group.name, album: album.name, version: version.name};
         else query = {group: group.name, album: album.name};
 
-        console.log(query);
+        // console.log(query);
 
         axios.post('http://localhost:3000/cards/query', query)
         .then(res => {
@@ -150,6 +150,11 @@ export default function CardList() {
                 </CardListSelectorField>
                 <SubmitButton handleSubmit={getCards}/>
             </CardListSelectors>
+            <CardListListWrapper>
+                {cards?.map(card => <img key={card._id} src={'http://localhost:3000/' + card.image}></img>)}
+            </CardListListWrapper>
         </CardListWrapper>
     )
 }
+
+// {cards?.map(card => <img key={card._id} src={'http://localhost:3000/' + card.image}></img>)}
