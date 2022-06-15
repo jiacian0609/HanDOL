@@ -51,10 +51,10 @@ router.get('/groups', async function(req, res, next) {
   }
 });
 
-/* GET album */
+/* GET member */
 router.get('/members/:group', async function(req, res, next) {
   const group = req.params.group;
-  // console.log(group);
+  console.log('/members/:group', group);
 
   try {
     await db.connect();
@@ -68,7 +68,7 @@ router.get('/members/:group', async function(req, res, next) {
     const memberList = await members.find(query).toArray();
 
     res.status(200).send({
-      message: 'successfully get album list',
+      message: 'successfully get member list',
       members: memberList
     });
   } catch (err) {
@@ -81,7 +81,7 @@ router.get('/members/:group', async function(req, res, next) {
 /* GET album */
 router.get('/albums/:group', async function(req, res, next) {
   const group = req.params.group;
-  // console.log(group);
+  console.log('/albums/:group', group);
 
   try {
     await db.connect();

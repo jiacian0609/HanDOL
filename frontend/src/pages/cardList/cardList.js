@@ -24,11 +24,40 @@ export default function CardList() {
             setGroup(res.data.groups[0]);
         })
 		.catch(err => {
-			console.log(err.response.data.message);
+			console.log(err);
 		})
 	}, []);
 
+    /* get member & album list */
+    useEffect(() => async function () {
+        console.log('group:', group);
+        if (group) {
+            /* get member list */
+            await axios.get('http://localhost:3000/cards/members/' + group._id)
+            .then(res => {
+                // console.log('res:', res);
+                setMembers(res.data.members);
+                setMember(res.data.members[0]);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+            /* get album list */
+            await axios.get('http://localhost:3000/cards/albums/' + group._id)
+            .then(res => {
+                // console.log('res:', res);
+                setAlbums(res.data.albums);
+                setAlbum(res.data.albums[0]);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }       
+	}, [group]);
+
     /* get album list */
+    /*
     useEffect(() => {
         if (group)
             axios.get('http://localhost:3000/cards/albums/' + group._id)
@@ -38,22 +67,22 @@ export default function CardList() {
                 setAlbum(res.data.albums[0]);
             })
             .catch(err => {
-                console.log(err.response.data.message);
+                console.log(err);
             })
-	}, [group]);
+	}, [group]);*/
 
     /* get version list */
     useEffect(() => {
-        console.log(album)
+        // console.log(album)
         if (album)
             axios.get('http://localhost:3000/cards/versions/' + album._id)
             .then(res => {
                 // console.log('res:', res);
                 setVersions(res.data.versions);
-                setVersion(res.data.version[0]);
+                setVersion(res.data.versions[0]);
             })
             .catch(err => {
-                console.log(err.response.data.message);
+                console.log(err);
             })
 	}, [album]);
 
