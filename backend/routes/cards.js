@@ -54,6 +54,7 @@ router.get('/groups', async function(req, res, next) {
 /* GET group */
 router.get('/albums/:group', async function(req, res, next) {
   const group = req.params.group;
+  // console.log(group);
 
   try {
     await db.connect();
@@ -62,9 +63,9 @@ router.get('/albums/:group', async function(req, res, next) {
     const database = db.db('HanDOL');
     const albums = database.collection('albums');
 
-    const query = { g_id: group };
+    const query = { g_id: Number(group) };
     // const options = { projection: { _id: 1 } };
-    const albumList = await albums.find(query, {}).toArray();
+    const albumList = await albums.find(query).toArray();
 
     res.status(200).send({
       message: 'successfully get album list',
