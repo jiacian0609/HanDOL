@@ -1,9 +1,6 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
-const dotenv = require('dotenv').config({path: './process.env'});
 const express = require('express');
 const router = express.Router();
 
@@ -57,12 +54,7 @@ router.post('/addcard', upload.single('image'), async function (req, res) {
   if (!version) return res.status(400).send({message: 'Please enter the version.'});
   if (!req.file) return res.status(400).send({message: 'Please upload the image.'});
 
-  const img = fs.readFileSync(req.file.path);
-  const encode_image = img.toString('base64'); //將圖片做base64編碼
-  const finalImg = {
-    contentType: req.file.mimetype,
-    image: Buffer.from(encode_image, 'base64')
-  };
+  const image = req.file.path;
 
   try {
     await db.connect();
@@ -82,7 +74,7 @@ router.post('/addcard', upload.single('image'), async function (req, res) {
       member: member,
       album: album,
       version: version,
-      image: finalImg
+      image: image
     };
 
     const result = await cards.insertOne(doc);
