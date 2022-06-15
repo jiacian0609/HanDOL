@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './indexPage-style.js';
 import { IndexWrapper, IndexTitle, IndexDivider, IndexForm, IndexButtons, IndexButton, IndexFormField, IndexText, IndexInput, IndexSubmit } from './indexPage-style.js';
 
-export default function Layout() {
+export default function Index() {
     const [signIn, setSignIn] = useState(true);
 
     function handleSubmit() {

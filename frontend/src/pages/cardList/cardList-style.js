@@ -4,6 +4,8 @@ export const IndexWrapper = styled.div `
     width: 100%;
     height: 100%;
 
+    // padding-left: 300px;
+
     position: absolute;
 
     background-color: #FFFBEF;
@@ -58,6 +60,11 @@ export const IndexButton = styled.button `
     ${(props) => props.active && `
         color: #FFFFFF;
         background-color: #8B775A;
+
+        &:hover {
+            color: #8B775A;
+            background-color: #FFFFFF;
+        }
     `}
 `
 
