@@ -13,8 +13,9 @@ export default function CardList() {
     const [versions, setVersions] = useState([]);
     const [version, setVersion] = useState();
 
-    console.log('groups:', groups, 'group:', group)
+    // console.log('groups:', groups, 'group:', group)
 
+    /* get group list */
     useEffect(() => {
         axios.get('http://localhost:3000/cards/groups')
         .then(res => {
@@ -27,18 +28,34 @@ export default function CardList() {
 		})
 	}, []);
 
-    
+    /* get album list */
     useEffect(() => {
         if (group)
             axios.get('http://localhost:3000/cards/albums/' + group._id)
             .then(res => {
                 // console.log('res:', res);
                 setAlbums(res.data.albums);
+                setAlbum(res.data.albums[0]);
             })
             .catch(err => {
                 console.log(err.response.data.message);
             })
 	}, [group]);
+
+    /* get version list */
+    useEffect(() => {
+        console.log(album)
+        if (album)
+            axios.get('http://localhost:3000/cards/versions/' + album._id)
+            .then(res => {
+                // console.log('res:', res);
+                setVersions(res.data.versions);
+                setVersion(res.data.version[0]);
+            })
+            .catch(err => {
+                console.log(err.response.data.message);
+            })
+	}, [album]);
 
     return (
         <CardListWrapper>
@@ -72,10 +89,9 @@ export default function CardList() {
                     <CardListSelectorName>Album</CardListSelectorName>
                     <CardListSelector
                         id='album'
-                        defaultValue='all'
+                        defaultValue={albums[0]}
                         onChange={e => setAlbum(e.target.value)}
                     >
-                        <option value='all'>All</option>
                         {albums?.map(album => 
                             <option key={album._id} value={album.name}>{album.name}</option>
                         )}
