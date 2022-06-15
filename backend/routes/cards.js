@@ -28,7 +28,7 @@ router.get('/', async function(req, res, next) {
 });
 
 /* GET group */
-router.get('/group', async function(req, res, next) {
+router.get('/groups', async function(req, res, next) {
   try {
     await db.connect();
     console.log('Connection Success');
@@ -42,7 +42,33 @@ router.get('/group', async function(req, res, next) {
 
     res.status(200).send({
       message: 'successfully get group list',
-      cards: groupList
+      groups: groupList
+    });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* GET group */
+router.get('/albums/:group', async function(req, res, next) {
+  const group = req.params.group;
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const albums = database.collection('albums');
+
+    const query = { g_id: group };
+    // const options = { projection: { _id: 1 } };
+    const albumList = await albums.find(query, {}).toArray();
+
+    res.status(200).send({
+      message: 'successfully get album list',
+      albums: albumList
     });
   } catch (err) {
     console.log(err);
