@@ -51,7 +51,34 @@ router.get('/groups', async function(req, res, next) {
   }
 });
 
-/* GET group */
+/* GET album */
+router.get('/members/:group', async function(req, res, next) {
+  const group = req.params.group;
+  // console.log(group);
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const members = database.collection('members');
+
+    const query = { g_id: Number(group) };
+    // const options = { projection: { _id: 1 } };
+    const memberList = await members.find(query).toArray();
+
+    res.status(200).send({
+      message: 'successfully get album list',
+      members: memberList
+    });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* GET album */
 router.get('/albums/:group', async function(req, res, next) {
   const group = req.params.group;
   // console.log(group);
