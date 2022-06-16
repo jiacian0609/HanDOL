@@ -143,4 +143,69 @@ router.post('/signin', async function (req, res, next) {
   }
 });
 
+/* POST record */
+router.post('/record', async function(req, res, next) {
+  const card_id = req.body;
+  // console.log('query: ', query);
+
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.Uid;
+
+  const query = { u_id: user_id, card_id: card_id};
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const records = database.collection('records');
+
+    // record already exists -> delete
+    const result = await records.deleteOne(query); 
+    if (result.deletedCount === 1) {
+      return res.status(200).send({message: 'Successfully deleted the record.'});
+    }
+    else { // record doesn't exist -> indsert
+      const result = await records.insertOne(query);
+      console.log(`A document was inserted with the _id: ${result.insertedId}`);
+      res.status(200).send({message: 'Successfully added record.'});
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* GET record */
+router.get('/record', async function(req, res, next) {
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.Uid;
+
+  const query = { u_id: user_id };
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const records = database.collection('records');
+
+    const recordList = await records.find(query).toArray();
+    console.log(recordList);
+
+    res.status(200).send({
+      message: 'successfully get record list',
+      records: recordList
+    });
+    
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
 module.exports = router;

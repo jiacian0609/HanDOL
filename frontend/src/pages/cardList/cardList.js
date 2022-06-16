@@ -16,11 +16,13 @@ export default function CardList() {
     const [version, setVersion] = useState();
     const [cards, setCards] = useState([]);
 
+    // console.log(group);
+
     /* get group list */
     useEffect(() => {
         axios.get('http://localhost:3000/cards/groups')
         .then(res => {
-            // console.log('res:', res);
+            // console.log('group res:', res.data.groups);
             setGroups(res.data.groups);
             setGroup(res.data.groups[0]);
         })
@@ -90,11 +92,26 @@ export default function CardList() {
         .then(res => {
             // console.log('res:', res.data.cards);
             setCards(res.data.cards);
+            getRecord();
         })
         .catch(err => {
             console.log(err);
         })
 	};
+
+    function getRecord() {
+        axios.get('http://localhost:3000/users/record', {
+			headers: {
+			  'Authorization': `${localStorage.getItem('JWT')}`
+			}
+		})
+        .then(res => {
+            console.log('record res:', res);
+        })
+		.catch(err => {
+			console.log(err);
+		})
+    }
 
     /*
     function record(card) {
