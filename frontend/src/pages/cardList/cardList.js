@@ -15,6 +15,7 @@ export default function CardList() {
     const [versions, setVersions] = useState([]);
     const [version, setVersion] = useState();
     const [cards, setCards] = useState([]);
+    const [records, setRecords] = useState([]);
 
     // console.log(group);
 
@@ -106,7 +107,8 @@ export default function CardList() {
 			}
 		})
         .then(res => {
-            console.log('record res:', res);
+            // console.log('record res:', res);
+            setRecords(res.data.records);
         })
 		.catch(err => {
 			console.log(err);

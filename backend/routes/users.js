@@ -150,7 +150,7 @@ router.post('/record', async function(req, res, next) {
 
   const JWT = req.headers.authorization;
 	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
-	const user_id = payload.Uid;
+	const user_id = payload.id;
 
   const query = { u_id: user_id, card_id: card_id};
 
@@ -182,7 +182,7 @@ router.post('/record', async function(req, res, next) {
 router.get('/record', async function(req, res, next) {
   const JWT = req.headers.authorization;
 	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
-	const user_id = payload.Uid;
+	const user_id = payload.id;
 
   const query = { u_id: user_id };
 
