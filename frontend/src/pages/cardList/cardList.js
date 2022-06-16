@@ -75,7 +75,7 @@ export default function CardList() {
     /* get card list */
     function getCards() {
         let query;
-        console.log(group, member, album, version)
+        // console.log(group, member, album, version)
         if (member !== undefined && version !== undefined)
             query = {group: group.name, member: member.name, album: album.name, version: version.name};
         else if (member !== undefined) 
@@ -88,13 +88,18 @@ export default function CardList() {
 
         axios.post('http://localhost:3000/cards/query', query)
         .then(res => {
-            console.log('res:', res.data.cards);
+            // console.log('res:', res.data.cards);
             setCards(res.data.cards);
         })
         .catch(err => {
             console.log(err);
         })
 	};
+
+    /*
+    function record(card) {
+        console.log('click', card);
+    }*/
 
     return (
         <CardListWrapper>
@@ -157,5 +162,3 @@ export default function CardList() {
         </CardListWrapper>
     )
 }
-
-// {cards?.map(card => <img key={card._id} src={'http://localhost:3000/' + card.image}></img>)}

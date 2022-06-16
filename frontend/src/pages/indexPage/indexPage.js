@@ -26,8 +26,8 @@ export default function Index() {
         .then( (res) => {
             // console.log(res.data);
             window.alert(res.data.message);
-			window.localStorage.setItem('JWT', res.data.JWT)
-            // window.location.href = "/home"
+			window.localStorage.setItem('JWT', res.data.token);
+            window.location.href = "/cardlist"; // home
 		})
 		.catch( (err) => {
 			window.alert(err.response.data.message);
