@@ -107,7 +107,7 @@ export default function CardList() {
 			}
 		})
         .then(res => {
-            // console.log('record res:', res);
+            console.log('records:', res.data.records);
             setRecords(res.data.records);
         })
 		.catch(err => {

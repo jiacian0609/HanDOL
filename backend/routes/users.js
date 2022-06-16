@@ -183,6 +183,7 @@ router.get('/record', async function(req, res, next) {
   const JWT = req.headers.authorization;
 	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
 	const user_id = payload.id;
+  // console.log(user_id);
 
   const query = { u_id: user_id };
 
@@ -193,8 +194,9 @@ router.get('/record', async function(req, res, next) {
     const database = db.db('HanDOL');
     const records = database.collection('records');
 
-    const recordList = await records.find(query).toArray();
-    console.log(recordList);
+    const options = { projection: { _id: 0, card_id: 1 } };
+    const recordList = await records.find(query, options).toArray();
+    // console.log(recordList);
 
     res.status(200).send({
       message: 'successfully get record list',

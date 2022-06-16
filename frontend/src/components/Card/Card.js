@@ -7,7 +7,6 @@ export default function Card({card}) {
     function record(card) {
         console.log('click', card);
 
-        const query = {};
         axios.post('http://localhost:3000/users/record', card._id, {
 			headers: {
 			  'Authorization': `${localStorage.getItem('JWT')}`
