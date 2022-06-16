@@ -4,13 +4,13 @@ export const CardListWrapper = styled.div `
     width: 100%;
     height: 100%;
 
-    padding-left: 80px;
+    padding: 80px 0 0 80px;
 
     position: absolute;
 
     background-color: #FFFBEF;
 
-    // display: flex;
+    display: flex;
     // flex-direction: column;
     // align-items: center;
     // justify-content: center;
@@ -18,7 +18,7 @@ export const CardListWrapper = styled.div `
 
 export const CardListSelectors = styled.div `
     width: 300px;
-    margin: 50px 0 0 50px;
+    margin-left: 50px;
 
     display: flex;
     flex-direction: column;
@@ -52,5 +52,12 @@ export const CardListSelector = styled.select `
 `
 
 export const CardListListWrapper = styled.div `
+    width: 850px;
+    // height: 100%;
 
+    margin-left: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
 `

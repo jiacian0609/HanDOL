@@ -3,6 +3,7 @@ import { useState,useEffect  } from 'react';
 import './cardList-style.js';
 import { CardListWrapper, CardListSelectors, CardListSelectorField, CardListSelectorName, CardListSelector, CardListListWrapper } from './cardList-style.js';
 import SubmitButton from '../../components/SubmitButton';
+import Card from '../../components/Card';
 
 export default function CardList() {
     const [groups, setGroups] = useState([]);
@@ -75,11 +76,11 @@ export default function CardList() {
     function getCards() {
         let query;
         console.log(group, member, album, version)
-        if (member !== 'all' && version !== 'all')
+        if (member !== undefined && version !== undefined)
             query = {group: group.name, member: member.name, album: album.name, version: version.name};
-        else if (member !== 'all') 
+        else if (member !== undefined) 
             query = {group: group.name, member: member.name, album: album.name};
-        else if (version !== 'all') 
+        else if (version !== undefined) 
             query = {group: group.name, album: album.name, version: version.name};
         else query = {group: group.name, album: album.name};
 
@@ -151,7 +152,7 @@ export default function CardList() {
                 <SubmitButton handleSubmit={getCards}/>
             </CardListSelectors>
             <CardListListWrapper>
-                {cards?.map(card => <img key={card._id} src={'http://localhost:3000/' + card.image}></img>)}
+                {cards?.map(card => <Card key={card._id} card={card} />)}
             </CardListListWrapper>
         </CardListWrapper>
     )
