@@ -60,8 +60,8 @@ router.get('/groups', async function(req, res, next) {
     const groups = database.collection('groups');
 
     // const query = { group: group, member: member, album: album, version: version };
-    // const options = { projection: { _id: 1 } };
-    const groupList = await groups.find().toArray();
+    const options = { sort: { _id: 1} };
+    const groupList = await groups.find({}, options).toArray();
 
     res.status(200).send({
       message: 'successfully get group list',
@@ -87,8 +87,8 @@ router.get('/members/:group', async function(req, res, next) {
     const members = database.collection('members');
 
     const query = { g_id: Number(group) };
-    // const options = { projection: { _id: 1 } };
-    const memberList = await members.find(query).toArray();
+    const options = { sort: { _id: 1} };
+    const memberList = await members.find(query, options).toArray();
 
     res.status(200).send({
       message: 'successfully get member list',
@@ -114,8 +114,8 @@ router.get('/albums/:group', async function(req, res, next) {
     const albums = database.collection('albums');
 
     const query = { g_id: Number(group) };
-    // const options = { projection: { _id: 1 } };
-    const albumList = await albums.find(query).toArray();
+    const options = { sort: { _id: 1} };
+    const albumList = await albums.find(query, options).toArray();
 
     res.status(200).send({
       message: 'successfully get album list',
@@ -140,8 +140,8 @@ router.get('/versions/:album', async function(req, res, next) {
     const versions = database.collection('versions');
 
     const query = { a_id: Number(version) };
-    // const options = { projection: { _id: 1 } };
-    const versionList = await versions.find(query).toArray();
+    const options = { sort: { _id: 1} };
+    const versionList = await versions.find(query, options).toArray();
 
     res.status(200).send({
       message: 'successfully get version list',
