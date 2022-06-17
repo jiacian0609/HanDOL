@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useState } from 'react';
 import './indexPage-style.js';
-import { IndexWrapper, IndexTitle, IndexDivider, IndexForm, IndexButtons, IndexButton, IndexFormField, IndexText, IndexInput, IndexSubmit } from './indexPage-style.js';
+import { IndexWrapper, IndexTitle, IndexDivider, IndexForm, IndexButtons, IndexButton, IndexFormField, IndexText, IndexInput } from './indexPage-style.js';
+import SubmitButton from '../../components/SubmitButton';
 
-export default function Layout() {
+export default function Index() {
     const [signIn, setSignIn] = useState(true);
 
     function handleSubmit() {
@@ -25,8 +26,8 @@ export default function Layout() {
         .then( (res) => {
             // console.log(res.data);
             window.alert(res.data.message);
-			window.localStorage.setItem('JWT', res.data.JWT)
-            // window.location.href = "/home"
+			window.localStorage.setItem('JWT', res.data.token);
+            window.location.href = "/cardlist"; // home
 		})
 		.catch( (err) => {
 			window.alert(err.response.data.message);
@@ -82,7 +83,7 @@ export default function Layout() {
                     <IndexInput id='password' type='password' />
                 </IndexFormField>
             </IndexForm>
-            <IndexSubmit onClick={()=> handleSubmit()} />
+            <SubmitButton handleSubmit={handleSubmit} />
         </IndexWrapper>
     )
 }

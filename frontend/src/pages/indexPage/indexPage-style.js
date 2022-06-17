@@ -58,11 +58,6 @@ export const IndexButton = styled.button `
     ${(props) => props.active && `
         color: #FFFFFF;
         background-color: #8B775A;
-
-        &:hover {
-            color: #8B775A;
-            background-color: #FFFFFF;
-        }
     `}
 `
 
@@ -93,18 +88,4 @@ export const IndexInput = styled.input `
     border: solid 1px #F2F2F2;
     border-radius: 10px;
     box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.2);
-`
-
-export const IndexSubmit = styled.button `
-    width: 30px;
-    height: 30px;
-    background-image: url('/icons/check.png');
-    background-color: inherit;
-    background-size: cover;
-    border: none;
-    cursor: pointer;
-
-    &:hover {
-        background-image: url('/icons/check-hover.png');
-    }
 `

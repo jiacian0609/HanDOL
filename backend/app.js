@@ -7,6 +7,8 @@ var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
+var cardsRouter = require('./routes/cards');
 
 var app = express();
 
@@ -23,6 +25,11 @@ app.use(cors({credentials:true}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
+app.use('/cards', cardsRouter);
+
+app.use(express.static(__dirname + '/public'));
+app.use('/uploads', express.static('uploads'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
