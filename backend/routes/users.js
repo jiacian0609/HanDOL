@@ -145,12 +145,13 @@ router.post('/signin', async function (req, res, next) {
 
 /* POST record */
 router.post('/record', async function(req, res, next) {
-  const card_id = req.body;
-  // console.log('query: ', query);
+  const card_id = req.body.card_id;
+  // console.log('card_id: ', card_id);
 
   const JWT = req.headers.authorization;
 	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
-	const user_id = payload.id;
+	const user_id = payload.id.id;
+  // console.log('user_id: ', user_id);
 
   const query = { u_id: user_id, card_id: card_id};
 
@@ -182,8 +183,8 @@ router.post('/record', async function(req, res, next) {
 router.get('/record', async function(req, res, next) {
   const JWT = req.headers.authorization;
 	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
-	const user_id = payload.id;
-  // console.log(user_id);
+	const user_id = payload.id.id;
+  // console.log('user_id: ', user_id);
 
   const query = { u_id: user_id };
 
@@ -198,9 +199,13 @@ router.get('/record', async function(req, res, next) {
     const recordList = await records.find(query, options).toArray();
     // console.log(recordList);
 
+    const recordIds = recordList.map( function(r) { return r.card_id; } );
+    // console.log(recordIds);
+    
+
     res.status(200).send({
       message: 'successfully get record list',
-      records: recordList
+      records: recordIds
     });
     
   } catch (err) {

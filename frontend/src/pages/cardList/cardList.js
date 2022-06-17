@@ -116,9 +116,9 @@ export default function CardList() {
     }
 
     function record(card) {
-        console.log('click', card);
+        // console.log('click', card._id);
 
-        axios.post('http://localhost:3000/users/record', card._id, {
+        axios.post('http://localhost:3000/users/record', { card_id: card._id }, {
 			headers: {
 			  'Authorization': `${localStorage.getItem('JWT')}`
 			}
