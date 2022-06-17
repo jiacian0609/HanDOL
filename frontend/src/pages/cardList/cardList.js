@@ -81,11 +81,11 @@ export default function CardList() {
         let query;
         // console.log(group, member, album, version)
         if (member !== undefined && version !== undefined)
-            query = {group: group.name, member: member.name, album: album.name, version: version.name};
+            query = {group: group.name, member: member._id, album: album.name, version: version._id};
         else if (member !== undefined) 
-            query = {group: group.name, member: member.name, album: album.name};
+            query = {group: group.name, member: member._id, album: album.name};
         else if (version !== undefined) 
-            query = {group: group.name, album: album.name, version: version.name};
+            query = {group: group.name, album: album.name, version: version._id};
         else query = {group: group.name, album: album.name};
 
         // console.log(query);
@@ -126,7 +126,7 @@ export default function CardList() {
 		})
         .then(res => {
             // console.log('res:', res.data);
-            window.alert(res.data.message);
+            // window.alert(res.data.message);
             getRecords();
         })
         .catch(err => {

@@ -36,8 +36,8 @@ router.post('/query', async function(req, res, next) {
     const database = db.db('HanDOL');
     const cards = database.collection('cards');
 
-    // const options = { projection: { _id: 1 } };
-    const cardList = await cards.find(query).toArray();
+    const options = { sort: { version: 1, member: 1 } };
+    const cardList = await cards.find(query, options).toArray();
 
     res.status(200).send({
       message: 'successfully get card list',
