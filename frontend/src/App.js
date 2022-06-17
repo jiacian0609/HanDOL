@@ -4,9 +4,9 @@ import './App.css';
 
 import Index from './pages/indexPage';
 
-import SideBar from './components/SideBar';
 import Layout from './pages/layout';
 import CardList from './pages/cardList';
+import Feedback from './pages/feedback';
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
           <Route path='/' element={<Index />} />
           <Route path='' element={<Layout />}>
             <Route path='/cardlist' element={<CardList />} />
+            <Route path='/feedback' element={<Feedback />} />
           </Route>
         </Routes>
       </div>
