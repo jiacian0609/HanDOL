@@ -1,19 +1,7 @@
 import styled from 'styled-components';
 
 export const CardListWrapper = styled.div `
-    width: 100%;
-    height: 100%;
-
-    padding: 50px 0;
-
-    position: absolute;
-
-    background-color: #FFFBEF;
-
     display: flex;
-    // flex-direction: column;
-    // align-items: center;
-    // justify-content: center;
 `
 
 export const CardListSelectors = styled.div `

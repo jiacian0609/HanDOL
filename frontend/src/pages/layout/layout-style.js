@@ -9,4 +9,9 @@ export const LayoutWrapper = styled.div `
     position: absolute;
 
     background-color: #FFFBEF;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 `
