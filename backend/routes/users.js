@@ -130,7 +130,7 @@ router.post('/signin', async function (req, res, next) {
       })
     
     if (token) return res.status(200).send({
-      message: 'Sign in successfully.',
+      message: 'Successfully signed in.',
       token: token
     });
     else return res.status(400).send({message: 'Wrong password.'});

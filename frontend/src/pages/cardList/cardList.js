@@ -24,6 +24,7 @@ export default function CardList() {
         axios.get('http://localhost:3000/cards/groups')
         .then(res => {
             // console.log('group res:', res.data.groups);
+            // getRecord();
             setGroups(res.data.groups);
             setGroup(res.data.groups[0]);
         })
@@ -93,14 +94,14 @@ export default function CardList() {
         .then(res => {
             // console.log('res:', res.data.cards);
             setCards(res.data.cards);
-            getRecord();
+            getRecords();
         })
         .catch(err => {
             console.log(err);
         })
 	};
 
-    function getRecord() {
+    function getRecords() {
         axios.get('http://localhost:3000/users/record', {
 			headers: {
 			  'Authorization': `${localStorage.getItem('JWT')}`
@@ -126,6 +127,7 @@ export default function CardList() {
         .then(res => {
             // console.log('res:', res.data);
             window.alert(res.data.message);
+            getRecords();
         })
         .catch(err => {
             console.log(err);
@@ -193,6 +195,7 @@ export default function CardList() {
                         key={card._id}
                         card={card}
                         record={record}
+                        onClick={() => console.log('click', card._id)}
                         active={records.includes(card._id)}
                     />
                 )}
