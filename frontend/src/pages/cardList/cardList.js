@@ -107,7 +107,7 @@ export default function CardList() {
 			}
 		})
         .then(res => {
-            console.log('records:', res.data.records);
+            // console.log('records:', res.data.records);
             setRecords(res.data.records);
         })
 		.catch(err => {
@@ -124,7 +124,7 @@ export default function CardList() {
 			}
 		})
         .then(res => {
-            console.log('res:', res.data);
+            // console.log('res:', res.data);
             window.alert(res.data.message);
         })
         .catch(err => {
@@ -188,7 +188,14 @@ export default function CardList() {
                 <SubmitButton handleSubmit={getCards}/>
             </CardListSelectors>
             <CardListListWrapper>
-                {cards?.map(card => <Card key={card._id} card={card} record={record} />)}
+                {cards?.map(card =>
+                    <Card
+                        key={card._id}
+                        card={card}
+                        record={record}
+                        active={records.includes(card._id)}
+                    />
+                )}
             </CardListListWrapper>
         </CardListWrapper>
     )
