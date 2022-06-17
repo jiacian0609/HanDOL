@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const multer = require('multer');
 const dotenv = require('dotenv').config({path: './process.env'});
 const express = require('express');
 const router = express.Router();
@@ -208,6 +209,75 @@ router.get('/record', async function(req, res, next) {
       records: recordIds
     });
     
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* POST feedback */
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'uploads/feedbacks');
+  },
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+  }
+});
+
+const upload = multer({
+  fileFilter(req, file, cb) {
+    // 只接受三種圖片格式
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      cb(new Error('Please upload an image.'))
+    }
+    cb(null, true)
+  },
+  storage: storage
+});
+
+router.get('/feedback', async function (req, res, next) {
+  res.sendFile(path.resolve('views/feedback.html'))
+});
+
+router.post('/feedback', upload.single('image'), async function (req, res) {
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+
+  const title = req.body.title;
+  const type = req.body.type;
+  const content = req.body.content;
+
+  // check if all the information is filled
+  if (!title) return res.status(400).send({message: 'Please enter the title.'});
+  if (!type) return res.status(400).send({message: 'Please select the type.'});
+  if (!content) return res.status(400).send({message: 'Please enter the contenr.'});
+  // if (!req.file) return res.status(400).send({message: 'Please upload the image.'});
+
+  let image;
+  if (req.file) image = req.file.path;
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const feedbacks = database.collection('feedbacks');
+
+    const doc = {
+      user_id: user_id,
+      title: title,
+      type: type,
+      content: content,
+      image: image
+    };
+
+    const result = await feedbacks.insertOne(doc);
+    console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+    res.status(200).send({message: 'Successfully added feedback.'});
   } catch (err) {
     console.log(err);
   } finally {
