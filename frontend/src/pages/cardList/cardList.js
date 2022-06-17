@@ -115,10 +115,22 @@ export default function CardList() {
 		})
     }
 
-    /*
     function record(card) {
         console.log('click', card);
-    }*/
+
+        axios.post('http://localhost:3000/users/record', card._id, {
+			headers: {
+			  'Authorization': `${localStorage.getItem('JWT')}`
+			}
+		})
+        .then(res => {
+            console.log('res:', res.data);
+            window.alert(res.data.message);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
     return (
         <CardListWrapper>
@@ -176,7 +188,7 @@ export default function CardList() {
                 <SubmitButton handleSubmit={getCards}/>
             </CardListSelectors>
             <CardListListWrapper>
-                {cards?.map(card => <Card key={card._id} card={card} />)}
+                {cards?.map(card => <Card key={card._id} card={card} record={record} />)}
             </CardListListWrapper>
         </CardListWrapper>
     )

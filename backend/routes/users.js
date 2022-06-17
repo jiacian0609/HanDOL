@@ -164,7 +164,7 @@ router.post('/record', async function(req, res, next) {
     // record already exists -> delete
     const result = await records.deleteOne(query); 
     if (result.deletedCount === 1) {
-      return res.status(200).send({message: 'Successfully deleted the record.'});
+      return res.status(200).send({message: 'Successfully deleted record.'});
     }
     else { // record doesn't exist -> indsert
       const result = await records.insertOne(query);
