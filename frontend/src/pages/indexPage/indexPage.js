@@ -25,7 +25,7 @@ export default function Index() {
         })
         .then( (res) => {
             // console.log(res.data);
-            window.alert(res.data.message);
+            // window.alert(res.data.message);
 			window.localStorage.setItem('JWT', res.data.token);
             window.location.href = "/cardlist"; // home
 		})
