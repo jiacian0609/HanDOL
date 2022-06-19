@@ -16,7 +16,7 @@ export default function Feedback() {
             title: title,
             type: type,
             content: content,
-            'image': image
+            image: image
         }, {
 			headers: {
 			  'Authorization': `${localStorage.getItem('JWT')}`,
