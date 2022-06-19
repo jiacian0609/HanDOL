@@ -34,13 +34,6 @@ export const SideBarDownButtons = styled.div `
     gap: 24px;
 `
 
-export const SideBarField = styled.div `
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    gap: 5px;
-`
-
 export const SideBarButton = styled.div `
     width: 30px;
     height: 30px;
@@ -51,10 +44,6 @@ export const SideBarButton = styled.div `
     background-image: url('/icons/${props => props.src}.png');
     background-size: cover;
     border: none;
-
-    &:hover {
-        background-image: url('/icons/${props => props.src}-hover.png');
-    }
 `
 
 export const SideBarTitle = styled.div `
@@ -64,8 +53,6 @@ export const SideBarTitle = styled.div `
     font-weight: 500;
     letter-spacing: 0em;
     text-align: left;
-
-    transition: 2s ease;
 `
 
 export const SideBarText = styled.div `
@@ -75,6 +62,24 @@ export const SideBarText = styled.div `
     font-weight: 500;
     letter-spacing: 0em;
     text-align: left;
+`
 
-    transition: 2s ease;
+export const SideBarField = styled.div `
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 5px;
+
+    &:hover {
+        ${SideBarText} {
+            color: #8B775A;
+        }
+        ${SideBarTitle} {
+            color: #8B775A;
+        }
+        ${SideBarButton} {
+            background-image: url('/icons/${props => props.src}-hover.png');
+        }
+    }
+    
 `
