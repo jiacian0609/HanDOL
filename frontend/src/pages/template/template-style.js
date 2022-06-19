@@ -58,6 +58,8 @@ export const TemplateListWrapper = styled.div `
 export const TemplateEditor = styled.div `
     width: 850px;
     height: 100%;
+
+    margin-left: 50px;
     
     display: flex;
     flex-direction: column;
@@ -73,7 +75,17 @@ export const TemplateEditField = styled.div `
     width: 720px;
     height: 1280px;
 
+    padding: 20px;
+
     overflow-y: scroll;
 
     background-color: #FFFFFF;
+`
+
+export const TemplateEditList = styled.div `
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
 `

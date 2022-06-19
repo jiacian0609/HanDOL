@@ -1,19 +1,14 @@
 import axios from 'axios';
 import { useState, useEffect, useRef, forwardRef } from 'react';
 import { exportComponentAsPNG } from 'react-component-export-image';
-import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField } from './template-style.js';
+import { useDrag, useDrop } from 'react-dnd';
+import { v4 as uuidv4 } from 'uuid';
+import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditList } from './template-style.js';
 import SubmitButton from '../../components/SubmitButton';
 import Card from '../../components/Card';
 
-const ExportTemplate = forwardRef((props, ref) => (
-    <TemplateEditField ref={ref}>
-        Hello World
-    </TemplateEditField>
-));
-
 export default function Template() {
-    const componentRef = useRef();
-
+    /* for card list */
     const [groups, setGroups] = useState([]);
     const [group, setGroup] = useState();
     const [members, setMembers] = useState([]);
@@ -25,9 +20,23 @@ export default function Template() {
     const [cards, setCards] = useState([]);
     const [records, setRecords] = useState([]);
 
+    /* for editor */
     const [template, setTemplate] = useState('exchange');
+    const [templateList, setTemplateList] = useState([]);
 
-    // console.log(group);
+    function addCard2Template(card) {
+        // console.log('drop', card._id);
+        setTemplateList(templateList => [...templateList, card]);
+    }
+
+    const componentRef = useRef();
+    const [{isOver}, dropRef] = useDrop(() => ({
+        accept: 'card',
+        drop: item => addCard2Template(item.card),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver()
+        })
+    }))
 
     /* get group list */
     useEffect(() => {
@@ -126,9 +135,18 @@ export default function Template() {
 		})
     };
 
+    function record(card) {
+    };
+
+    function rmCardFromList(card) {
+        setTemplateList(templateList.filter(item => item !== card))
+    }
+
     function exportTemplate() {
         exportComponentAsPNG(componentRef, { fileName: template + 'Template' })
     };
+
+    // console.log(templateList);
 
     return (
         <TemplateWrapper>
@@ -189,6 +207,7 @@ export default function Template() {
                         <Card
                             key={card._id}
                             card={card}
+                            handleClick={record}
                             active={records.includes(card._id)}
                         />
                     )}
@@ -208,7 +227,18 @@ export default function Template() {
                     </TemplateSelectorField>
                     <SubmitButton handleSubmit={exportTemplate} />
                 </TemplateEditHeader>
-                <ExportTemplate ref={componentRef} />
+                <TemplateEditField ref={componentRef}>
+                    <TemplateEditList ref={dropRef}>
+                        {templateList?.map(card =>
+                            <Card
+                                key={uuidv4()}
+                                card={card}
+                                handleClick={rmCardFromList}
+                                active={records.includes(card._id)}
+                            />
+                        )}
+                    </TemplateEditList>
+                </TemplateEditField>
             </TemplateEditor>
         </TemplateWrapper>
     )
