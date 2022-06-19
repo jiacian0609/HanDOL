@@ -26,6 +26,7 @@ export default function Feedback() {
         .then( (res) => {
             // console.log(res.data);
             window.alert(res.data.message);
+            window.location.reload();
 		})
 		.catch( (err) => {
 			window.alert(err.response.data.message);
