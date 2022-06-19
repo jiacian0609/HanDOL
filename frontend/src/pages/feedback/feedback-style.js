@@ -52,7 +52,6 @@ export const FeedbackContent = styled.textarea `
     width: 100%;
     height: 300px;
 
-    margin-bottom: 10px;
     padding: 10px 5px;
 
     font-family: Overpass;
@@ -64,4 +63,14 @@ export const FeedbackContent = styled.textarea `
     border: none;
 
     resize: none;
+`
+
+export const FeedbackUpload = styled.input `
+    width: 100%;
+    margin: 10px 0;
+
+    font-family: Overpass;
+    font-size: 16px;
+    text-align: left;
+    line-height: 16px;
 `

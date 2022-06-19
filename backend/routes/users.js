@@ -246,6 +246,7 @@ router.post('/feedback', upload.single('image'), async function (req, res) {
 	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
 	const user_id = payload.id.id;
 
+  const time = Date.now();
   const title = req.body.title;
   const type = req.body.type;
   const content = req.body.content;
@@ -267,6 +268,7 @@ router.post('/feedback', upload.single('image'), async function (req, res) {
     const feedbacks = database.collection('feedbacks');
 
     const doc = {
+      time: time,
       user_id: user_id,
       title: title,
       type: type,
