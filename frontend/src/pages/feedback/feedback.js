@@ -5,7 +5,7 @@ import SubmitButton from '../../components/SubmitButton';
 
 export default function Feedback() {
     const [image, setImage] = useState();
-    // console.log('image: ', image);
+    console.log('image: ', image);
 
     function handleSubmit() {
         const title = document.getElementById('title').value;
@@ -19,7 +19,7 @@ export default function Feedback() {
             image: image
         }, {
 			headers: {
-			  'Authorization': `${localStorage.getItem('JWT')}`,
+			  'Authorization': window.localStorage.getItem('JWT'),
               'Content-Type': 'multipart/form-data'
 			}
 		})
@@ -48,7 +48,7 @@ export default function Feedback() {
                 type="file"
                 name="image"
                 accept="image/*"
-                onChange={e => setImage(e.target.file)}
+                onChange={e => setImage(e.target.files[0])}
             />
             <SubmitButton handleSubmit={handleSubmit} />
         </FeedbackWrapper>
