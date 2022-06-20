@@ -5,6 +5,7 @@ import './App.css';
 import Index from './pages/indexPage';
 
 import Layout from './pages/layout';
+import Home from './pages/home';
 import CardList from './pages/cardList';
 import Template from './pages/template';
 import Feedback from './pages/feedback';
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Index />} />
           <Route path='' element={<Layout />}>
+            <Route path='/home' element={<Home />} />
             <Route path='/cardlist' element={<CardList />} />
             <Route path='/template' element={<Template />} />
             <Route path='/feedback' element={<Feedback />} />
