@@ -216,8 +216,73 @@ router.get('/record', async function(req, res, next) {
   }
 });
 
+/* POST post */
+const storage1 = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'uploads/posts');
+  },
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+  }
+});
+
+const upload1 = multer({
+  fileFilter(req, file, cb) {
+    // 只接受三種圖片格式
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      cb(new Error('Please upload an image.'))
+    }
+    cb(null, true)
+  },
+  storage: storage1
+});
+
+router.get('/post', async function (req, res, next) {
+  res.sendFile(path.resolve('views/post.html'))
+});
+
+router.post('/post', upload1.single('image'), async function (req, res) {
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+
+  const time = Date.now();
+  const content = req.body.content;
+
+  // check if all the information is filled
+  if (!content) return res.status(400).send({message: 'Please enter the contenr.'});
+  if (!req.file) return res.status(400).send({message: 'Please upload the image.'});
+
+  let image;
+  if (req.file) image = req.file.path;
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const posts = database.collection('posts');
+
+    const doc = {
+      time: time,
+      user_id: user_id,
+      content: content,
+      image: image
+    };
+
+    const result = await posts.insertOne(doc);
+    console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+    res.status(200).send({message: 'Successfully added post.'});
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
 /* POST feedback */
-const storage = multer.diskStorage({
+const storage2 = multer.diskStorage({
   destination: function(req, file, cb) {
       cb(null, 'uploads/feedbacks');
   },
@@ -226,7 +291,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({
+const upload2 = multer({
   fileFilter(req, file, cb) {
     // 只接受三種圖片格式
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -234,14 +299,14 @@ const upload = multer({
     }
     cb(null, true)
   },
-  storage: storage
+  storage: storage2
 });
 
 router.get('/feedback', async function (req, res, next) {
   res.sendFile(path.resolve('views/feedback.html'))
 });
 
-router.post('/feedback', upload.single('image'), async function (req, res) {
+router.post('/feedback', upload2.single('image'), async function (req, res) {
   const JWT = req.headers.authorization;
 	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
 	const user_id = payload.id.id;
