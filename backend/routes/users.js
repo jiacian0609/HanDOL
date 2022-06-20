@@ -250,7 +250,7 @@ router.post('/post', upload1.single('image'), async function (req, res) {
   const content = req.body.content;
 
   // check if all the information is filled
-  if (!content) return res.status(400).send({message: 'Please enter the contenr.'});
+  if (!content) return res.status(400).send({message: 'Please enter the content.'});
   if (!req.file) return res.status(400).send({message: 'Please upload the image.'});
 
   let image;
@@ -319,7 +319,7 @@ router.post('/feedback', upload2.single('image'), async function (req, res) {
   // check if all the information is filled
   if (!title) return res.status(400).send({message: 'Please enter the title.'});
   if (!type) return res.status(400).send({message: 'Please select the type.'});
-  if (!content) return res.status(400).send({message: 'Please enter the contenr.'});
+  if (!content) return res.status(400).send({message: 'Please enter the content.'});
   // if (!req.file) return res.status(400).send({message: 'Please upload the image.'});
 
   let image;
