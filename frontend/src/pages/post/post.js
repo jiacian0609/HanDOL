@@ -23,7 +23,7 @@ export default function Post() {
             image: image
         }, {
 			headers: {
-			  'Authorization': `${localStorage.getItem('JWT')}`,
+			  'Authorization': localStorage.getItem('JWT'),
               'Content-Type': 'multipart/form-data'
 			}
 		})
