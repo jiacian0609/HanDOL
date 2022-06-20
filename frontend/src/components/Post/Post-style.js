@@ -19,8 +19,29 @@ export const PostImg = styled.img `
     max-width: 300px;
     max-height: 300px;
 
+    margin-bottom: 10px;
+
     background-color: #F2F2F2;
     backgroune-size: contain;
+    border-radius: 10px;
+`
+
+export const PostButtons = styled.div `
+    width: 100%;
+    display: flex;
+    gap: 7px;
+`
+
+export const PostButton = styled.button `
+    width: 30px;
+    height: 30px;
+
+    background-image: url('/icons/${props => props.src}.png');
+    background-size: cover;
+    background-color: inherit;
+    border: none;
+
+    cursor: pointer;
 `
 
 export const PostContent = styled.div `
@@ -29,15 +50,10 @@ export const PostContent = styled.div `
 
     overflow-y: scroll;
 
-    margin-bottom: 10px;
-    padding: 10px 5px;
-
     font-family: Overpass;
     font-size: 16px;
     text-align: left;
     line-height: 16px;
 
     border: none;
-
-    resize: none;
 `

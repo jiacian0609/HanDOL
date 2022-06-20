@@ -1,4 +1,4 @@
-import { PostWrapper, PostImg, PostContent } from './Post-style.js';
+import { PostWrapper, PostImg, PostButtons, PostButton, PostContent } from './Post-style.js';
 
 export default function Post({post}) {
     const imgUrl = 'http://localhost:3000/' + post.image;
@@ -6,6 +6,10 @@ export default function Post({post}) {
     return (
         <PostWrapper>
             <PostImg src={imgUrl} />
+            <PostButtons>
+                <PostButton src='like'/>
+                <PostButton src='comment'/>
+            </PostButtons>
             <div>{post.user_id}</div>
             <div>{post.time}</div>
             <PostContent>{post.content}</PostContent>
