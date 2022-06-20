@@ -6,6 +6,7 @@ import Index from './pages/indexPage';
 
 import Layout from './pages/layout';
 import CardList from './pages/cardList';
+import Template from './pages/template';
 import Feedback from './pages/feedback';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path='/' element={<Index />} />
           <Route path='' element={<Layout />}>
             <Route path='/cardlist' element={<CardList />} />
+            <Route path='/template' element={<Template />} />
             <Route path='/feedback' element={<Feedback />} />
           </Route>
         </Routes>

@@ -1,11 +1,14 @@
 import axios from 'axios';
-import { useState,useEffect  } from 'react';
-import './cardList-style.js';
-import { CardListWrapper, CardListSelectors, CardListSelectorField, CardListSelectorName, CardListSelector, CardListListWrapper } from './cardList-style.js';
+import { useState, useEffect, useRef, forwardRef } from 'react';
+import { exportComponentAsPNG } from 'react-component-export-image';
+import { useDrag, useDrop } from 'react-dnd';
+import { v4 as uuidv4 } from 'uuid';
+import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditList } from './template-style.js';
 import SubmitButton from '../../components/SubmitButton';
 import Card from '../../components/Card';
 
-export default function CardList() {
+export default function Template() {
+    /* for card list */
     const [groups, setGroups] = useState([]);
     const [group, setGroup] = useState();
     const [members, setMembers] = useState([]);
@@ -17,7 +20,23 @@ export default function CardList() {
     const [cards, setCards] = useState([]);
     const [records, setRecords] = useState([]);
 
-    // console.log(group);
+    /* for editor */
+    const [template, setTemplate] = useState('exchange');
+    const [templateList, setTemplateList] = useState([]);
+
+    function addCard2Template(card) {
+        // console.log('drop', card._id);
+        setTemplateList(templateList => [...templateList, card]);
+    }
+
+    const componentRef = useRef();
+    const [{isOver}, dropRef] = useDrop(() => ({
+        accept: 'card',
+        drop: item => addCard2Template(item.card),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver()
+        })
+    }))
 
     /* get group list */
     useEffect(() => {
@@ -114,32 +133,27 @@ export default function CardList() {
 		.catch(err => {
 			console.log(err);
 		})
-    }
+    };
 
     function record(card) {
-        // console.log('click', card._id);
+    };
 
-        axios.post('http://localhost:3000/users/record', { card_id: card._id }, {
-			headers: {
-			  'Authorization': `${localStorage.getItem('JWT')}`
-			}
-		})
-        .then(res => {
-            // console.log('res:', res.data);
-            // window.alert(res.data.message);
-            getRecords();
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    function rmCardFromList(card) {
+        setTemplateList(templateList.filter(item => item !== card))
     }
 
+    function exportTemplate() {
+        exportComponentAsPNG(componentRef, { fileName: template + 'Template' })
+    };
+
+    // console.log(templateList);
+
     return (
-        <CardListWrapper>
-            <CardListSelectors>
-                <CardListSelectorField>
-                    <CardListSelectorName>Group</CardListSelectorName>
-                    <CardListSelector
+        <TemplateWrapper>
+            <TemplateSelectors>
+                <TemplateSelectorField>
+                    <TemplateSelectorName>Group</TemplateSelectorName>
+                    <TemplateSelector
                         id='group'
                         defaultValue={groups[0]}
                         onChange={e => setGroup(albums[Number(e.target.value) - 1])}
@@ -147,11 +161,11 @@ export default function CardList() {
                         {groups?.map(item => 
                             <option key={item._id} value={item._id}>{item.name}</option>
                         )}
-                    </CardListSelector>
-                </CardListSelectorField>
-                <CardListSelectorField>
-                    <CardListSelectorName>Member</CardListSelectorName>
-                    <CardListSelector
+                    </TemplateSelector>
+                </TemplateSelectorField>
+                <TemplateSelectorField>
+                    <TemplateSelectorName>Member</TemplateSelectorName>
+                    <TemplateSelector
                         id='member'
                         defaultValue='all'
                         onChange={e => setMember(members[Number(e.target.value) - 1])}
@@ -160,11 +174,11 @@ export default function CardList() {
                         {members?.map(member => 
                             <option key={member._id} value={member._id}>{member.name}</option>
                         )}
-                    </CardListSelector>
-                </CardListSelectorField>
-                <CardListSelectorField>
-                    <CardListSelectorName>Album</CardListSelectorName>
-                    <CardListSelector
+                    </TemplateSelector>
+                </TemplateSelectorField>
+                <TemplateSelectorField>
+                    <TemplateSelectorName>Album</TemplateSelectorName>
+                    <TemplateSelector
                         id='album'
                         defaultValue={albums[0]}
                         onChange={e => setAlbum(albums[Number(e.target.value) - 1])}
@@ -172,11 +186,11 @@ export default function CardList() {
                         {albums?.map(album => 
                             <option key={album._id} value={album._id}>{album.name}</option>
                         )}
-                    </CardListSelector>
-                </CardListSelectorField>
-                <CardListSelectorField>
-                    <CardListSelectorName>Version</CardListSelectorName>
-                    <CardListSelector
+                    </TemplateSelector>
+                </TemplateSelectorField>
+                <TemplateSelectorField>
+                    <TemplateSelectorName>Version</TemplateSelectorName>
+                    <TemplateSelector
                         id='version'
                         defaultValue='all'
                         onChange={e => setVersion(versions[Number(e.target.value) - 1])}
@@ -185,21 +199,52 @@ export default function CardList() {
                         {versions?.map(version => 
                             <option key={version._id} value={version._id}>{version.name}</option>
                         )}
-                    </CardListSelector>
-                </CardListSelectorField>
+                    </TemplateSelector>
+                </TemplateSelectorField>
                 <SubmitButton handleSubmit={getCards}/>
-            </CardListSelectors>
-            <CardListListWrapper>
-                {cards?.map(card =>
-                    <Card
-                        key={card._id}
-                        card={card}
-                        handleClick={record}
-                        onClick={() => console.log('click', card._id)}
-                        active={records.includes(card._id)}
-                    />
-                )}
-            </CardListListWrapper>
-        </CardListWrapper>
+                <TemplateListWrapper>
+                    {cards?.map(card =>
+                        <Card
+                            key={card._id}
+                            card={card}
+                            handleClick={record}
+                            active={records.includes(card._id)}
+                        />
+                    )}
+                </TemplateListWrapper>
+            </TemplateSelectors>
+            <TemplateEditor>
+                <TemplateEditHeader>
+                    <TemplateSelectorField> 
+                        <TemplateSelectorName>Template</TemplateSelectorName>
+                        <TemplateSelector
+                            id='template'
+                            defaultValue='exchange'
+                            onChange={e => setTemplate(e.target.value)}
+                        >
+                            <option value='exchange'>Exchange</option>
+                        </TemplateSelector>
+                    </TemplateSelectorField>
+                    <SubmitButton handleSubmit={exportTemplate} />
+                </TemplateEditHeader>
+                <TemplateEditField ref={componentRef}>
+                    <TemplateEditList ref={dropRef}>
+                        {templateList?.map(card =>
+                            <Card
+                                key={uuidv4()}
+                                card={card}
+                                handleClick={rmCardFromList}
+                                active={records.includes(card._id)}
+                            />
+                        )}
+                    </TemplateEditList>
+                </TemplateEditField>
+            </TemplateEditor>
+        </TemplateWrapper>
     )
 }
+
+/* <ComponentToPrint ref={componentRef} />
+            <button onClick={() => exportComponentAsPNG(componentRef, { fileName: 'template'})}>
+                Export As PNG
+            </button> */
