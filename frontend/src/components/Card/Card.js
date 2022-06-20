@@ -19,7 +19,7 @@ export default function Card({card, handleClick, active}) {
         <CardImage
             src={imgUrl}
             active={active}
-            onClick={() => handleClick(card)}
+            onClick={handleClick}
             ref={dragRef}
         />
     )

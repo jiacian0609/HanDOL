@@ -43,12 +43,17 @@ export const TemplateSelector = styled.select `
 
 export const TemplateListWrapper = styled.div `
     width: 300px;
+    height: 450px;
 
     margin-top: 30px;
 
     overflow-x: scroll;
     overflow-y: scroll;
+`
 
+export const TemplateListContainer = styled.div `
+    width: 850px;
+    
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

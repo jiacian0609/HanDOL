@@ -194,8 +194,7 @@ export default function CardList() {
                     <Card
                         key={card._id}
                         card={card}
-                        handleClick={record}
-                        onClick={() => console.log('click', card._id)}
+                        handleClick={() => record(card)}
                         active={records.includes(card._id)}
                     />
                 )}

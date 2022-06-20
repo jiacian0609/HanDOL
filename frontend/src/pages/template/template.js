@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import { exportComponentAsPNG } from 'react-component-export-image';
 import { useDrag, useDrop } from 'react-dnd';
 import { v4 as uuidv4 } from 'uuid';
-import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditList } from './template-style.js';
+import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditList, TemplateListContainer } from './template-style.js';
 import SubmitButton from '../../components/SubmitButton';
 import Card from '../../components/Card';
 
@@ -54,12 +54,12 @@ export default function Template() {
 
     /* get member & album list */
     useEffect(() => async function () {
-        // console.log('group:', group);
+        // console.log('template group: ', group);
         if (group) {
             /* get member list */
             await axios.get('http://localhost:3000/cards/members/' + group._id)
             .then(res => {
-                // console.log('res:', res);
+                // console.log('res:', res.data.members);
                 setMembers(res.data.members);
                 setMember('all');
             })
@@ -138,8 +138,8 @@ export default function Template() {
     function record(card) {
     };
 
-    function rmCardFromList(card) {
-        setTemplateList(templateList.filter(item => item !== card))
+    function rmCardFromList(index) {
+        setTemplateList(templateList.filter((item, id) => id !== index))
     }
 
     function exportTemplate() {
@@ -203,14 +203,16 @@ export default function Template() {
                 </TemplateSelectorField>
                 <SubmitButton handleSubmit={getCards}/>
                 <TemplateListWrapper>
-                    {cards?.map(card =>
-                        <Card
-                            key={card._id}
-                            card={card}
-                            handleClick={record}
-                            active={records.includes(card._id)}
-                        />
-                    )}
+                    <TemplateListContainer>
+                        {cards?.map(card =>
+                            <Card
+                                key={card._id}
+                                card={card}
+                                handleClick={record}
+                                active={records.includes(card._id)}
+                            />
+                        )}
+                    </TemplateListContainer>
                 </TemplateListWrapper>
             </TemplateSelectors>
             <TemplateEditor>
@@ -229,11 +231,11 @@ export default function Template() {
                 </TemplateEditHeader>
                 <TemplateEditField ref={componentRef}>
                     <TemplateEditList ref={dropRef}>
-                        {templateList?.map(card =>
+                        {templateList?.map((card, index) =>
                             <Card
-                                key={uuidv4()}
+                                key={index}
                                 card={card}
-                                handleClick={rmCardFromList}
+                                handleClick={() => rmCardFromList(index)}
                                 active={records.includes(card._id)}
                             />
                         )}
