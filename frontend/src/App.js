@@ -8,7 +8,7 @@ import Layout from './pages/layout';
 import Home from './pages/home';
 import CreatePost from './pages/createPost';
 import CardList from './pages/cardList';
-import Template from './pages/template';
+import Template from './pages/templatePage';
 import Feedback from './pages/feedback';
 
 function App() {

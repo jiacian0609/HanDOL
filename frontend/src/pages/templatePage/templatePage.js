@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { useState, useEffect, useRef, forwardRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { exportComponentAsPNG } from 'react-component-export-image';
-import { useDrag, useDrop } from 'react-dnd';
-import { v4 as uuidv4 } from 'uuid';
-import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditList, TemplateListContainer } from './template-style.js';
+import { useDrop } from 'react-dnd';
+import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditList, TemplateListContainer } from './templatePage-style.js';
 import SubmitButton from '../../components/SubmitButton';
 import Card from '../../components/Card';
 
@@ -245,8 +244,3 @@ export default function Template() {
         </TemplateWrapper>
     )
 }
-
-/* <ComponentToPrint ref={componentRef} />
-            <button onClick={() => exportComponentAsPNG(componentRef, { fileName: 'template'})}>
-                Export As PNG
-            </button> */
