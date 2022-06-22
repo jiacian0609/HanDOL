@@ -43,6 +43,10 @@ export const PostButton = styled.button `
     border: none;
 
     cursor: pointer;
+
+    ${props => props.active && `
+        background-image: url('/icons/${props.src}-active.png');
+    `}
 `
 
 export const PostContentField = styled.div `
@@ -59,7 +63,7 @@ export const PostUsername = styled.div `
 
     font-family: Overpass;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 900;
     text-align: left;
     line-height: 16px;
 `

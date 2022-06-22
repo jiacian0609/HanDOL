@@ -281,6 +281,78 @@ router.post('/post', upload1.single('image'), async function (req, res) {
   }
 });
 
+/* POST like */
+router.post('/like', async function(req, res, next) {
+  const post_id = req.body.post_id;
+  // console.log('card_id: ', card_id);
+
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+  // console.log('user_id: ', user_id);
+
+  const query = { u_id: user_id, post_id: post_id};
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const likes = database.collection('likes');
+
+    // record already exists -> delete
+    const result = await likes.deleteOne(query); 
+    if (result.deletedCount === 1) {
+      return res.status(200).send({message: 'Successfully disliked.'});
+    }
+    else { // record doesn't exist -> indsert
+      const result = await likes.insertOne(query);
+      console.log(`A document was inserted with the _id: ${result.insertedId}`);
+      res.status(200).send({message: 'Successfully liked.'});
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* GET like */
+router.get('/like', async function(req, res, next) {
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+  // console.log('user_id: ', user_id);
+
+  const query = { u_id: user_id };
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const likes = database.collection('likes');
+
+    const options = { projection: { _id: 0, post_id: 1 } };
+    const likeList = await likes.find(query, options).toArray();
+    // console.log(recordList);
+
+    const likeIds = likeList.map( function(r) { return r.post_id; } );
+    // console.log(recordIds);
+    
+
+    res.status(200).send({
+      message: 'successfully get like list',
+      likes: likeIds
+    });
+    
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
 /* POST feedback */
 const storage2 = multer.diskStorage({
   destination: function(req, file, cb) {
