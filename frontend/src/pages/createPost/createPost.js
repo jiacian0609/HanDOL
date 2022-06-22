@@ -1,11 +1,13 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { PostWrapper, PostImg, PostUpload, PostContent } from './post-style.js';
+import { useState } from 'react';
+import { PostWrapper, PostImg, PostUpload, PostContent } from './createPost-style.js';
 import SubmitButton from '../../components/SubmitButton';
 
-export default function Post() {
+export default function PostPage() {
     const [image, setImage] = useState();
     const [imgURL, setImgURL] = useState();
+
+    console.log(imgURL);
 
     function handleUpload(e) {
         console.log(e);

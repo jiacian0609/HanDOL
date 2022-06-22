@@ -82,7 +82,7 @@ router.post('/signup', async function (req, res, next) {
 
 /* GET sign in */
 function generateAccessToken(id, username) {
-  return jwt.sign({id, username}, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+  return jwt.sign({id, username}, process.env.TOKEN_SECRET); // { expiresIn: '10000000s' }
 };
 
 router.get('/signin', async function (req, res, next) {

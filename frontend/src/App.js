@@ -6,7 +6,7 @@ import Index from './pages/indexPage';
 
 import Layout from './pages/layout';
 import Home from './pages/home';
-import Post from './pages/post';
+import CreatePost from './pages/createPost';
 import CardList from './pages/cardList';
 import Template from './pages/template';
 import Feedback from './pages/feedback';
@@ -19,7 +19,7 @@ function App() {
           <Route path='/' element={<Index />} />
           <Route path='' element={<Layout />}>
             <Route path='/home' element={<Home />} />
-            <Route path='/post' element={<Post />} />
+            <Route path='/post' element={<CreatePost />} />
             <Route path='/cardlist' element={<CardList />} />
             <Route path='/template' element={<Template />} />
             <Route path='/feedback' element={<Feedback />} />
