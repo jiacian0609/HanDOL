@@ -10,17 +10,16 @@ export default function Home() {
     // console.log(likes);
 
     /* get posts */
-    useEffect(() => async function() {
-        await axios.get('http://localhost:3000/posts/')
+    useEffect(() => {
+        axios.get('http://localhost:3000/posts')
         .then(res => {
             // console.log('res:', res.data.posts);
             setPosts(res.data.posts);
+            getLikes()
         })
 		.catch(err => {
 			console.log(err);
 		})
-
-        await getLikes();
     }, []);
 
     /* create post */
