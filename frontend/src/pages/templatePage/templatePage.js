@@ -37,8 +37,24 @@ export default function Template() {
         })
     }))
 
-    /* get group list */
     useEffect(() => {
+        if (!group) getGroups();
+	}, []);
+
+    useEffect(() => {
+        if (group) getMembers();
+    }, [group]);
+
+    useEffect(() => {
+        if (member) getAlbums();
+    }, [member]);
+
+    useEffect(() => {
+        if (album) getVersions();
+    }, [album]);
+
+    function getGroups() {
+        // console.log('getting groups');
         axios.get('http://localhost:3000/cards/groups')
         .then(res => {
             // console.log('group res:', res.data.groups);
@@ -49,52 +65,45 @@ export default function Template() {
 		.catch(err => {
 			console.log(err);
 		})
-	}, []);
+    }
 
-    /* get member & album list */
-    useEffect(() => async function () {
-        // console.log('template group: ', group);
-        if (group) {
-            /* get member list */
-            await axios.get('http://localhost:3000/cards/members/' + group._id)
-            .then(res => {
-                // console.log('res:', res.data.members);
-                setMembers(res.data.members);
-                setMember('all');
-            })
-            .catch(err => {
-                console.log(err);
-            })
+    function getMembers() {
+        // console.log('getting members');
+        axios.get('http://localhost:3000/cards/members/' + group._id)
+        .then(res => {
+            // console.log('res:', res);
+            setMembers(res.data.members);
+            setMember('all');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
-            /* get album list */
-            await axios.get('http://localhost:3000/cards/albums/' + group._id)
-            .then(res => {
-                // console.log('res:', res);
-                setAlbums(res.data.albums);
-                setAlbum(res.data.albums[0]);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-        }       
-	}, [group]);
+    function getAlbums() {
+        axios.get('http://localhost:3000/cards/albums/' + group._id)
+        .then(res => {
+            // console.log('res:', res);
+            setAlbums(res.data.albums);
+            setAlbum(res.data.albums[0]);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
-    /* get version list */
-    useEffect(() => {
-        // console.log(album)
-        if (album)
-            axios.get('http://localhost:3000/cards/versions/' + album._id)
-            .then(res => {
-                // console.log('res:', res);
-                setVersions(res.data.versions);
-                setVersion('all');
-            })
-            .catch(err => {
-                console.log(err);
-            })
-	}, [album]);
+    function getVersions() {
+        axios.get('http://localhost:3000/cards/versions/' + album._id)
+        .then(res => {
+            // console.log('res:', res);
+            setVersions(res.data.versions);
+            setVersion('all');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
-    /* get card list */
     function getCards() {
         let query;
         // console.log(group, member, album, version)
