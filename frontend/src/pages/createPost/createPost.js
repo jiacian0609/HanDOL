@@ -7,7 +7,7 @@ export default function PostPage() {
     const [image, setImage] = useState();
     const [imgURL, setImgURL] = useState();
 
-    console.log(imgURL);
+    // console.log(imgURL);
 
     function handleUpload(e) {
         console.log(e);
@@ -35,7 +35,10 @@ export default function PostPage() {
             window.location.href = '/home';
 		})
 		.catch(err => {
-			window.alert(err.response.data.message);
+            // console.log(err);
+            if (err.code === 'ERR_BAD_RESPONSE')
+                window.alert('Please upload an image. (jpg/jpeg/png)');
+			else window.alert(err.response.data.message);
 		})
     }
 
