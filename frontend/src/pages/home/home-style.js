@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 
 export const HomeWrapper = styled.div `
-    width: 100%;
+    width: 80%;
     height: 100%;
 
-    padding: 50px 150px;
+    padding: 50px 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
 `
 
 export const HomeButton = styled.button `

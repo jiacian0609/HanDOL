@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const PostWrapper = styled.div `
     width: 500px;
+    height: 500px;
 
     padding: 30px;
 
@@ -85,5 +86,5 @@ export const PostDate = styled.div `
     text-align: left;
     line-height: 16px;
 
-    color: #DADADA;
+    color: #BBBBBB;
 `
