@@ -92,3 +92,20 @@ export const PostDate = styled.div `
 
     color: #BBBBBB;
 `
+
+export const PostCommentField = styled.div `
+    width: 100%;
+`
+
+export const PostCommentInput = styled.input `
+    width: 100%;
+    padding: 5px;
+
+    font-family: Overpass;
+    font-size: 16px;
+    text-align: left;
+    line-height: 16px;
+
+    background-color: #F2F2F2;
+    border: none;
+`
