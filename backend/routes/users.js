@@ -354,7 +354,6 @@ router.get('/like', async function(req, res, next) {
 });
 
 /* POST comment */
-/* POST like */
 router.post('/comment', async function(req, res, next) {
   const post_id = req.body.post_id;
   const content = req.body.content;
@@ -365,7 +364,7 @@ router.post('/comment', async function(req, res, next) {
 	const user_id = payload.id.id;
   // console.log('user_id: ', user_id);
 
-  const query = { u_id: user_id, post_id: post_id, content: content };
+  const query = { user_id: user_id, post_id: post_id, content: content };
 
   try {
     await db.connect();

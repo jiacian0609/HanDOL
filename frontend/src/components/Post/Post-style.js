@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const PostWrapper = styled.div `
     width: 500px;
-    height: 500px;
 
     padding: 30px;
 
@@ -58,7 +57,6 @@ export const PostContentField = styled.div `
 `
 
 export const PostUsername = styled.div `
-    width: 100%;
     // margin: 10px 0;
 
     font-family: Overpass;
@@ -69,7 +67,6 @@ export const PostUsername = styled.div `
 `
 
 export const PostContent = styled.div `
-    width: 100%;
     max-height: 100px;
 
     overflow-y: scroll;
@@ -95,6 +92,13 @@ export const PostDate = styled.div `
 
 export const PostCommentField = styled.div `
     width: 100%;
+`
+
+export const PostComment = styled.div `
+    width: 100%;
+    padding: 10px 5px;
+    display: flex;
+    gap: 10px;
 `
 
 export const PostCommentInput = styled.input `

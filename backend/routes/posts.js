@@ -39,4 +39,44 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+/* GET comment */
+router.get('/comment/:post_id', async function(req, res, next) {
+  const post_id = req.params.post_id;
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const comments = database.collection('comments');
+
+    const query = { post_id: post_id };
+    const commentList = await comments.find(query).toArray();
+    // console.log(commentList);
+
+    let resultList = [];
+
+    /* get username */
+    const users = database.collection('users');
+    for (let i in commentList) {
+      // console.log(postList[i]);
+      const query = { _id: mongo.ObjectId(commentList[i].user_id) };
+      const options = { projection: { _id: 0, username: 1 } };
+      const user = await users.findOne(query, options);
+      // console.log(commentList);
+      resultList.push(Object.assign({}, commentList[i], user));
+    }
+
+    res.status(200).send({
+      message: 'successfully get comment list',
+      comments: resultList
+    });
+    
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
 module.exports = router;

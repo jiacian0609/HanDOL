@@ -1,10 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { PostWrapper, PostImg, PostButtons, PostButton, PostUsername, PostContent, PostDate, PostContentField, PostCommentField, PostCommentInput } from './Post-style.js';
+import { PostWrapper, PostImg, PostButtons, PostButton, PostUsername, PostContent, PostDate, PostContentField, PostCommentField, PostComment, PostCommentInput } from './Post-style.js';
 
 export default function Post({post, like, liked}) {
     const [showComment, setShowComment] = useState();
+    const [comments, setComments] = useState([]);
+
     const imgUrl = 'http://localhost:3000/' + post.image;
+
+    function handleClickComment() {
+        setShowComment(!showComment)
+        if (showComment) getComments();
+    }
+
+    function getComments() {
+        axios.get('http://localhost:3000/posts/comment/' + post._id)
+        .then(res => {
+            setComments(res.data.comments);
+        })
+		.catch(err => {
+			console.log(err);
+		})
+    }
 
     function handleComment() {
         const content = document.getElementById('comment').value;
@@ -27,21 +44,31 @@ export default function Post({post, like, liked}) {
 		})
     }
 
+    console.log(comments);
+
     return (
         <PostWrapper>
             <PostImg src={imgUrl} />
             <PostButtons>
                 <PostButton src='like' onClick={like} active={liked} />
-                <PostButton src='comment' onClick={() => setShowComment(!showComment)} />
+                <PostButton src='comment' onClick={() => handleClickComment()} />
             </PostButtons>
             <PostContentField>
                 <PostUsername>{post.username}</PostUsername>
                 <PostContent>{post.content}</PostContent>
                 <PostDate>{new Date(post.time).toDateString()}</PostDate>
             </PostContentField>
-            <PostCommentField>
-                <PostCommentInput id='comment' onKeyPress={(e) => e.key === 'Enter' && handleComment()} />
-            </PostCommentField>
+            {showComment &&
+                <PostCommentField>
+                    {comments?.map(comment => 
+                        <PostComment key={comment._id}>
+                            <PostUsername>{comment.username}</PostUsername>
+                            <PostContent>{comment.content}</PostContent>
+                        </PostComment>
+                    )}
+                    <PostCommentInput id='comment' onKeyPress={(e) => e.key === 'Enter' && handleComment()} />
+                </PostCommentField>
+            }
         </PostWrapper>
     )
 }
