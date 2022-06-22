@@ -1,6 +1,6 @@
-import { PostWrapper, PostImg, PostButtons, PostButton, PostContent } from './Post-style.js';
+import { PostWrapper, PostImg, PostButtons, PostButton, PostUsername, PostContent, PostDate, PostContentField } from './Post-style.js';
 
-export default function Post({post}) {
+export default function Post({post, like}) {
     const imgUrl = 'http://localhost:3000/' + post.image;
 
     return (
@@ -10,9 +10,11 @@ export default function Post({post}) {
                 <PostButton src='like'/>
                 <PostButton src='comment'/>
             </PostButtons>
-            <div>{post.user_id}</div>
-            <div>{post.time}</div>
-            <PostContent>{post.content}</PostContent>
+            <PostContentField>
+                <PostUsername>{post.username}</PostUsername>
+                <PostContent>{post.content}</PostContent>
+                <PostDate>{new Date(post.time).toDateString()}</PostDate>
+            </PostContentField>
         </PostWrapper>
     )
 }

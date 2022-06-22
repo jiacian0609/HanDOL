@@ -44,6 +44,25 @@ export const PostButton = styled.button `
     cursor: pointer;
 `
 
+export const PostContentField = styled.div `
+    width: 100%;
+    padding: 10px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`
+
+export const PostUsername = styled.div `
+    width: 100%;
+    // margin: 10px 0;
+
+    font-family: Overpass;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: left;
+    line-height: 16px;
+`
+
 export const PostContent = styled.div `
     width: 100%;
     max-height: 100px;
@@ -56,4 +75,15 @@ export const PostContent = styled.div `
     line-height: 16px;
 
     border: none;
+`
+
+export const PostDate = styled.div `
+    // margin: 10px 0; 
+
+    font-family: Overpass;
+    font-size: 16px;
+    text-align: left;
+    line-height: 16px;
+
+    color: #DADADA;
 `
