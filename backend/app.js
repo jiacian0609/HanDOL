@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var cardsRouter = require('./routes/cards');
+var postsRouter = require('./routes/posts');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 app.use('/cards', cardsRouter);
+app.use('/posts', postsRouter);
 
 app.use(express.static(__dirname + '/public'));
 app.use('/uploads', express.static('uploads'));

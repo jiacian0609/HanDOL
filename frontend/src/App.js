@@ -5,8 +5,10 @@ import './App.css';
 import Index from './pages/indexPage';
 
 import Layout from './pages/layout';
+import Home from './pages/home';
+import CreatePost from './pages/createPost';
 import CardList from './pages/cardList';
-import Template from './pages/template';
+import Template from './pages/templatePage';
 import Feedback from './pages/feedback';
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Index />} />
           <Route path='' element={<Layout />}>
+            <Route path='/home' element={<Home />} />
+            <Route path='/post' element={<CreatePost />} />
             <Route path='/cardlist' element={<CardList />} />
             <Route path='/template' element={<Template />} />
             <Route path='/feedback' element={<Feedback />} />

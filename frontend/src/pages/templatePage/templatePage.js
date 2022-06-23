@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { useState, useEffect, useRef, forwardRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { exportComponentAsPNG } from 'react-component-export-image';
-import { useDrag, useDrop } from 'react-dnd';
-import { v4 as uuidv4 } from 'uuid';
-import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditList } from './template-style.js';
+import { useDrop } from 'react-dnd';
+import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditList, TemplateListContainer } from './templatePage-style.js';
 import SubmitButton from '../../components/SubmitButton';
 import Card from '../../components/Card';
 
@@ -38,8 +37,24 @@ export default function Template() {
         })
     }))
 
-    /* get group list */
     useEffect(() => {
+        if (!group) getGroups();
+	}, []);
+
+    useEffect(() => {
+        if (group) getMembers();
+    }, [group]);
+
+    useEffect(() => {
+        if (member) getAlbums();
+    }, [member]);
+
+    useEffect(() => {
+        if (album) getVersions();
+    }, [album]);
+
+    function getGroups() {
+        // console.log('getting groups');
         axios.get('http://localhost:3000/cards/groups')
         .then(res => {
             // console.log('group res:', res.data.groups);
@@ -50,52 +65,45 @@ export default function Template() {
 		.catch(err => {
 			console.log(err);
 		})
-	}, []);
+    }
 
-    /* get member & album list */
-    useEffect(() => async function () {
-        // console.log('group:', group);
-        if (group) {
-            /* get member list */
-            await axios.get('http://localhost:3000/cards/members/' + group._id)
-            .then(res => {
-                // console.log('res:', res);
-                setMembers(res.data.members);
-                setMember('all');
-            })
-            .catch(err => {
-                console.log(err);
-            })
+    function getMembers() {
+        // console.log('getting members');
+        axios.get('http://localhost:3000/cards/members/' + group._id)
+        .then(res => {
+            // console.log('res:', res);
+            setMembers(res.data.members);
+            setMember('all');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
-            /* get album list */
-            await axios.get('http://localhost:3000/cards/albums/' + group._id)
-            .then(res => {
-                // console.log('res:', res);
-                setAlbums(res.data.albums);
-                setAlbum(res.data.albums[0]);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-        }       
-	}, [group]);
+    function getAlbums() {
+        axios.get('http://localhost:3000/cards/albums/' + group._id)
+        .then(res => {
+            // console.log('res:', res);
+            setAlbums(res.data.albums);
+            setAlbum(res.data.albums[0]);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
-    /* get version list */
-    useEffect(() => {
-        // console.log(album)
-        if (album)
-            axios.get('http://localhost:3000/cards/versions/' + album._id)
-            .then(res => {
-                // console.log('res:', res);
-                setVersions(res.data.versions);
-                setVersion('all');
-            })
-            .catch(err => {
-                console.log(err);
-            })
-	}, [album]);
+    function getVersions() {
+        axios.get('http://localhost:3000/cards/versions/' + album._id)
+        .then(res => {
+            // console.log('res:', res);
+            setVersions(res.data.versions);
+            setVersion('all');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
-    /* get card list */
     function getCards() {
         let query;
         // console.log(group, member, album, version)
@@ -138,8 +146,8 @@ export default function Template() {
     function record(card) {
     };
 
-    function rmCardFromList(card) {
-        setTemplateList(templateList.filter(item => item !== card))
+    function rmCardFromList(index) {
+        setTemplateList(templateList.filter((item, id) => id !== index))
     }
 
     function exportTemplate() {
@@ -203,14 +211,16 @@ export default function Template() {
                 </TemplateSelectorField>
                 <SubmitButton handleSubmit={getCards}/>
                 <TemplateListWrapper>
-                    {cards?.map(card =>
-                        <Card
-                            key={card._id}
-                            card={card}
-                            handleClick={record}
-                            active={records.includes(card._id)}
-                        />
-                    )}
+                    <TemplateListContainer>
+                        {cards?.map(card =>
+                            <Card
+                                key={card._id}
+                                card={card}
+                                handleClick={record}
+                                active={records.includes(card._id)}
+                            />
+                        )}
+                    </TemplateListContainer>
                 </TemplateListWrapper>
             </TemplateSelectors>
             <TemplateEditor>
@@ -229,11 +239,11 @@ export default function Template() {
                 </TemplateEditHeader>
                 <TemplateEditField ref={componentRef}>
                     <TemplateEditList ref={dropRef}>
-                        {templateList?.map(card =>
+                        {templateList?.map((card, index) =>
                             <Card
-                                key={uuidv4()}
+                                key={index}
                                 card={card}
-                                handleClick={rmCardFromList}
+                                handleClick={() => rmCardFromList(index)}
                                 active={records.includes(card._id)}
                             />
                         )}
@@ -243,8 +253,3 @@ export default function Template() {
         </TemplateWrapper>
     )
 }
-
-/* <ComponentToPrint ref={componentRef} />
-            <button onClick={() => exportComponentAsPNG(componentRef, { fileName: 'template'})}>
-                Export As PNG
-            </button> */

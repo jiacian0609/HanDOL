@@ -82,7 +82,7 @@ router.post('/signup', async function (req, res, next) {
 
 /* GET sign in */
 function generateAccessToken(id, username) {
-  return jwt.sign({id, username}, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+  return jwt.sign({id, username}, process.env.TOKEN_SECRET); // { expiresIn: '10000000s' }
 };
 
 router.get('/signin', async function (req, res, next) {
@@ -216,8 +216,175 @@ router.get('/record', async function(req, res, next) {
   }
 });
 
+/* POST post */
+const storage1 = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'uploads/posts');
+  },
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+  }
+});
+
+const upload1 = multer({
+  fileFilter(req, file, cb) {
+    // 只接受三種圖片格式
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      cb(new Error('Please upload an image.'))
+    }
+    cb(null, true)
+  },
+  storage: storage1
+});
+
+router.get('/post', async function (req, res, next) {
+  res.sendFile(path.resolve('views/post.html'))
+});
+
+router.post('/post', upload1.single('image'), async function (req, res) {
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+
+  const time = Date.now();
+  const content = req.body.content;
+
+  // check if all the information is filled
+  if (!content) return res.status(400).send({message: 'Please enter the content.'});
+  if (!req.file) return res.status(400).send({message: 'Please upload the image.'});
+
+  let image;
+  if (req.file) image = req.file.path;
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const posts = database.collection('posts');
+
+    const doc = {
+      time: time,
+      user_id: user_id,
+      content: content,
+      image: image
+    };
+
+    const result = await posts.insertOne(doc);
+    console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+    res.status(200).send({message: 'Successfully added post.'});
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* POST like */
+router.post('/like', async function(req, res, next) {
+  const post_id = req.body.post_id;
+  // console.log('card_id: ', card_id);
+
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+  // console.log('user_id: ', user_id);
+
+  const query = { u_id: user_id, post_id: post_id};
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const likes = database.collection('likes');
+
+    // record already exists -> delete
+    const result = await likes.deleteOne(query); 
+    if (result.deletedCount === 1) {
+      return res.status(200).send({message: 'Successfully disliked.'});
+    }
+    else { // record doesn't exist -> indsert
+      const result = await likes.insertOne(query);
+      console.log(`A document was inserted with the _id: ${result.insertedId}`);
+      res.status(200).send({message: 'Successfully liked.'});
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* GET like */
+router.get('/like', async function(req, res, next) {
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+  // console.log('user_id: ', user_id);
+
+  const query = { u_id: user_id };
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const likes = database.collection('likes');
+
+    const options = { projection: { _id: 0, post_id: 1 } };
+    const likeList = await likes.find(query, options).toArray();
+    // console.log(recordList);
+
+    const likeIds = likeList.map( function(r) { return r.post_id; } );
+    // console.log(recordIds);
+    
+
+    res.status(200).send({
+      message: 'successfully get like list',
+      likes: likeIds
+    });
+    
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* POST comment */
+router.post('/comment', async function(req, res, next) {
+  const post_id = req.body.post_id;
+  const content = req.body.content;
+  // console.log('card_id: ', card_id);
+
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+  // console.log('user_id: ', user_id);
+
+  const query = { user_id: user_id, post_id: post_id, content: content };
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const comments = database.collection('comments');
+
+    const result = await comments.insertOne(query);
+    console.log(`A document was inserted with the _id: ${result.insertedId}`);
+    res.status(200).send({message: 'Successfully added comment.'});
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
 /* POST feedback */
-const storage = multer.diskStorage({
+const storage2 = multer.diskStorage({
   destination: function(req, file, cb) {
       cb(null, 'uploads/feedbacks');
   },
@@ -226,7 +393,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({
+const upload2 = multer({
   fileFilter(req, file, cb) {
     // 只接受三種圖片格式
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -234,14 +401,14 @@ const upload = multer({
     }
     cb(null, true)
   },
-  storage: storage
+  storage: storage2
 });
 
 router.get('/feedback', async function (req, res, next) {
   res.sendFile(path.resolve('views/feedback.html'))
 });
 
-router.post('/feedback', upload.single('image'), async function (req, res) {
+router.post('/feedback', upload2.single('image'), async function (req, res) {
   const JWT = req.headers.authorization;
 	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
 	const user_id = payload.id.id;
@@ -254,7 +421,7 @@ router.post('/feedback', upload.single('image'), async function (req, res) {
   // check if all the information is filled
   if (!title) return res.status(400).send({message: 'Please enter the title.'});
   if (!type) return res.status(400).send({message: 'Please select the type.'});
-  if (!content) return res.status(400).send({message: 'Please enter the contenr.'});
+  if (!content) return res.status(400).send({message: 'Please enter the content.'});
   // if (!req.file) return res.status(400).send({message: 'Please upload the image.'});
 
   let image;
