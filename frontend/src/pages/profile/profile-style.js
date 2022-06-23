@@ -73,6 +73,7 @@ export const ProfileButton = styled.button `
 
 export const ProfileContentWrapper = styled.div `
     width: 100%;
+    min-height: 500px;
     padding: 20px 0;
 
     display: flex;
