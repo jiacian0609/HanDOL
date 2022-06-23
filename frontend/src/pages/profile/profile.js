@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect  } from 'react';
-import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButtons, ProfileButton, ProfileContentWrapper } from './profile-style.js';
+import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButtons, ProfileButton, ProfileContentWrapper, ProfileSettingButtons, ProfileSettingButton } from './profile-style.js';
 import Post from '../../components/Post';
 import SubmitButton from '../../components/SubmitButton';
 
@@ -94,6 +94,13 @@ export default function Profile() {
                         liked={likes.includes(post._id)}
                     />
                 )}
+                {settings && 
+                    <ProfileSettingButtons>
+                        <ProfileSettingButton>
+                            Upload Profile Image
+                        </ProfileSettingButton>
+                    </ProfileSettingButtons>
+                }
             </ProfileContentWrapper>
         </ProfileWrapper>
     )

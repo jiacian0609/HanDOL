@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const ProfileWrapper = styled.div `
+    width: 100%;
     height: 100%;
     padding: 80px 0;
 `
@@ -79,4 +80,33 @@ export const ProfileContentWrapper = styled.div `
     gap: 50px;
 
     overflow-y: scroll;
+`
+
+export const ProfileSettingButtons = styled.div `
+    width: 80%;
+    padding: 50px 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+`
+
+export const ProfileSettingButton = styled.button `
+    width: 100%;    
+    height: 40px;
+
+    font-family: Overpass;
+    font-size: 16px;
+    text-align: center;
+    line-height: 16px;
+
+    background-color: #FFFFFF;
+    border: solid 3px #E9DBC7;
+    border-radius: 20px;
+
+    cursor: pointer;
+
+    &:hover {
+        border: solid 3px #8B775A;
+    }
 `
