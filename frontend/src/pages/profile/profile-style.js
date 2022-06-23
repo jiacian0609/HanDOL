@@ -36,6 +36,9 @@ export const ProfileUsername = styled.div `
 
 export const ProfileButtons = styled.div `
     display: flex;
+    align-items: center;
+    justify-content: center;
+
     gap: 15px;
 `
 
@@ -67,5 +70,13 @@ export const ProfileButton = styled.button `
 `
 
 export const ProfileContentWrapper = styled.div `
+    width: 100%;
+    padding: 20px 0;
 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+
+    overflow-y: scroll;
 `
