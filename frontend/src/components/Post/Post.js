@@ -8,12 +8,15 @@ export default function Post({post, like, liked}) {
 
     const imgUrl = 'http://localhost:3000/' + post.image;
 
-    function handleClickComment() {
+    useEffect(() => {
+    }, [comments]);
+
+    async function handleClickComment() {
+        if (!showComment) await getComments();
         setShowComment(!showComment)
-        if (showComment) getComments();
     }
 
-    function getComments() {
+    async function getComments() {
         axios.get('http://localhost:3000/posts/comment/' + post._id)
         .then(res => {
             setComments(res.data.comments);

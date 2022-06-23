@@ -78,12 +78,6 @@ export default function Profile() {
                     Post
                 </ProfileButton>
                 <ProfileButton
-                    active={template}
-                    onClick={() => {setTemplate(true); setPost(false); setSettings(false)}}
-                >
-                    Template
-                </ProfileButton>
-                <ProfileButton
                     active={settings}
                     onClick={() => {setSettings(true); setPost(false); setTemplate(false)}}
                 >
@@ -104,3 +98,10 @@ export default function Profile() {
         </ProfileWrapper>
     )
 }
+
+/* <ProfileButton
+    active={template}
+    onClick={() => {setTemplate(true); setPost(false); setSettings(false)}}
+>
+    Template
+</ProfileButton> */
