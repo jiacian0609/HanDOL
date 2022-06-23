@@ -2,9 +2,10 @@ import axios from 'axios';
 import { useState, useEffect  } from 'react';
 import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButtons, ProfileButton, ProfileContentWrapper, ProfileSettingButtons, ProfileSettingButton } from './profile-style.js';
 import Post from '../../components/Post';
-import SubmitButton from '../../components/SubmitButton';
 
 export default function Profile() {
+    const [username, setUsername] = useState();
+
     const [post, setPost] = useState(true);
     const [template, setTemplate] = useState(false);
     const [settings, setSettings] = useState(false);
@@ -12,8 +13,30 @@ export default function Profile() {
     const [posts, setPosts] = useState([]);
     const [likes, setLikes] = useState([]);
 
-    /* get personal posts */
     useEffect(() => {
+        getUsername();
+    }, []);
+
+    useEffect(() => {
+        if (username) getPersonalPosts();
+    }, [username]);
+
+    function getUsername() {
+        axios.get('http://localhost:3000/users/username', {
+            headers: {
+                'Authorization': localStorage.getItem('JWT')
+            }
+        })
+        .then(res => {
+            console.log(res);
+            setUsername(res.data.username);
+        })
+		.catch(err => {
+			console.log(err);
+		})
+    }
+
+    function getPersonalPosts() {
         axios.get('http://localhost:3000/posts/personal', {
             headers: {
                 'Authorization': localStorage.getItem('JWT')
@@ -27,7 +50,7 @@ export default function Profile() {
 		.catch(err => {
 			console.log(err);
 		})
-    }, []);
+    }
 
     /* get likes */
     async function getLikes() {
@@ -68,7 +91,7 @@ export default function Profile() {
         <ProfileWrapper>
             <ProfileInfo>
                 <ProfileImg />
-                <ProfileUsername>Username</ProfileUsername>
+                <ProfileUsername>{username}</ProfileUsername>
             </ProfileInfo>
             <ProfileButtons>
                 <ProfileButton

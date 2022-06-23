@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongo = require('mongodb');
 const path = require('path');
 const multer = require('multer');
 const dotenv = require('dotenv').config({path: './process.env'});
@@ -447,6 +448,35 @@ router.post('/feedback', upload2.single('image'), async function (req, res) {
     console.log(`A document was inserted with the _id: ${result.insertedId}`);
 
     res.status(200).send({message: 'Successfully added feedback.'});
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
+/* GET username */
+router.get('/username', async function(req, res, next) {
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const users = database.collection('users');
+    const query = { _id: mongo.ObjectId(user_id) };
+    const options = { projection: { _id: 0, username: 1 } };
+    const user = await users.findOne(query, options);
+
+    console.log(user_id);
+
+    res.status(200).send({
+      message: 'successfully get username',
+      username: user.username
+    });
   } catch (err) {
     console.log(err);
   } finally {
