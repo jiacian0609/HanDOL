@@ -1,56 +1,42 @@
 import axios from 'axios';
 import { useState, useEffect  } from 'react';
-import { FeedbackWrapper, FeedbackTitleField, FeedbackTitle, FeedbackType, FeedbackContent, FeedbackUpload } from './profile-style.js';
+import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButtons, ProfileButton, ProfileContentWrapper } from './profile-style.js';
 import SubmitButton from '../../components/SubmitButton';
 
-export default function Feedback() {
-    const [image, setImage] = useState();
-    console.log('image: ', image);
-
-    function handleSubmit() {
-        const title = document.getElementById('title').value;
-        const type = document.getElementById('type').value;
-        const content = document.getElementById('content').value;
-        
-        axios.post('http://localhost:3000/users/feedback', {
-            title: title,
-            type: type,
-            content: content,
-            image: image
-        }, {
-			headers: {
-			  'Authorization': window.localStorage.getItem('JWT'),
-              'Content-Type': 'multipart/form-data'
-			}
-		})
-        .then( (res) => {
-            // console.log(res.data);
-            window.alert(res.data.message);
-            window.location.reload();
-		})
-		.catch( (err) => {
-			window.alert(err.response.data.message);
-		})
-    }
+export default function Profile() {
+    const [post, setPost] = useState(true);
+    const [template, setTemplate] = useState(false);
+    const [settings, setSettings] = useState(false);
 
     return (
-        <FeedbackWrapper>
-            <FeedbackTitleField>
-                <FeedbackTitle placeholder='Title' id='title' />
-                <FeedbackType id='type'>
-                    <option value="update">Update Request</option>
-                    <option value="problem">Problem</option>
-                    <option value="others">Others</option>
-                </FeedbackType>
-            </FeedbackTitleField>
-            <FeedbackContent placeholder='Content' id='content' />
-            <FeedbackUpload
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={e => setImage(e.target.files[0])}
-            />
-            <SubmitButton handleSubmit={handleSubmit} />
-        </FeedbackWrapper>
+        <ProfileWrapper>
+            <ProfileInfo>
+                <ProfileImg />
+                <ProfileUsername>Username</ProfileUsername>
+            </ProfileInfo>
+            <ProfileButtons>
+                <ProfileButton
+                    active={post}
+                    onClick={() => {setPost(true); setTemplate(false); setSettings(false)}}
+                >
+                    Post
+                </ProfileButton>
+                <ProfileButton
+                    active={template}
+                    onClick={() => {setTemplate(true); setPost(false); setSettings(false)}}
+                >
+                    Template
+                </ProfileButton>
+                <ProfileButton
+                    active={settings}
+                    onClick={() => {setSettings(true); setPost(false); setTemplate(false)}}
+                >
+                    Settings
+                </ProfileButton>
+            </ProfileButtons>
+            <ProfileContentWrapper>
+                
+            </ProfileContentWrapper>
+        </ProfileWrapper>
     )
 }

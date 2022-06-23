@@ -1,76 +1,71 @@
 import styled from 'styled-components';
 
-export const FeedbackWrapper = styled.div `
-    width: 600px;
+export const ProfileWrapper = styled.div `
+    height: 100%;
+    padding: 80px 0;
+`
 
-    padding: 30px;
-
-    background-color: #FFFFFF;
-    border-radius: 20px;
-    box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.2);
+export const ProfileInfo = styled.div `
+    margin-bottom: 20px;
 
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 `
 
-export const FeedbackTitleField = styled.div `
-    width: 100%;
-    margin-bottom: 15px;
-`
+export const ProfileImg = styled.img `
+    width: 100px;
+    height: 100px;
 
-export const FeedbackTitle = styled.input `
-    width: calc(100% - 160px);
-    padding: 5px;
+    margin-right: 20px;
 
-    margin-right: 10px;
-
-    font-family: Overpass;
-    font-size: 16px;
-    text-align: left;
-    line-height: 16px;
-
+    border-radius: 50%;
+    border: solid 10px #FFFFFF;
     background-color: #F2F2F2;
-    border: none;
+    background-size: cover;
 `
 
-export const FeedbackType = styled.select `
-    width: 150px;
-    padding: 4px;
+export const ProfileUsername = styled.div `
+    width: 200px;
+    font-family: Overpass;
+    font-size: 25px;
+    font-weight: 900;
+    text-align: left;
+    line-height: 16px;
+`
+
+export const ProfileButtons = styled.div `
+    display: flex;
+    gap: 15px;
+`
+
+export const ProfileButton = styled.button `
+    width: 130px;
+    height: 30px;
+    // padding: 8px 30px;
+
+    border: none;
+    border-radius: 20px;
+    background-color: #E9DBC7;
 
     font-family: Overpass;
     font-size: 16px;
-    text-align: left;
+    text-align: center;
     line-height: 16px;
 
-    background-color: #F2F2F2;
-    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #8B775A;
+        color: #FFFFFF;
+    }
+
+    ${props => props.active && `
+        background-color: #8B775A;
+        color: #FFFFFF;
+    `}
 `
 
-export const FeedbackContent = styled.textarea `
-    width: 100%;
-    height: 300px;
+export const ProfileContentWrapper = styled.div `
 
-    padding: 10px 5px;
-
-    font-family: Overpass;
-    font-size: 16px;
-    text-align: left;
-    line-height: 16px;
-
-    background-color: #F2F2F2;
-    border: none;
-
-    resize: none;
-`
-
-export const FeedbackUpload = styled.input `
-    width: 100%;
-    margin: 10px 0;
-
-    font-family: Overpass;
-    font-size: 16px;
-    text-align: left;
-    line-height: 16px;
 `
