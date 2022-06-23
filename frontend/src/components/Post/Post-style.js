@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const PostWrapper = styled.div `
     width: 500px;
+    height: fit-content;
 
     padding: 30px;
 

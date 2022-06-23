@@ -9,6 +9,7 @@ import Home from './pages/home';
 import CreatePost from './pages/createPost';
 import CardList from './pages/cardList';
 import Template from './pages/templatePage';
+import Profile from './pages/profile';
 import Feedback from './pages/feedback';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path='/post' element={<CreatePost />} />
             <Route path='/cardlist' element={<CardList />} />
             <Route path='/template' element={<Template />} />
+            <Route path='/profile' element={<Profile />} />
             <Route path='/feedback' element={<Feedback />} />
           </Route>
         </Routes>
