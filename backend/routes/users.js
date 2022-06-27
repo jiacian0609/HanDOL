@@ -484,4 +484,54 @@ router.get('/username', async function(req, res, next) {
   }
 });
 
+/* POST profile image */
+const storage3 = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'uploads/profile');
+  },
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+  }
+});
+
+const upload3 = multer({
+  fileFilter(req, file, cb) {
+    // 只接受三種圖片格式
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      cb(new Error('Please upload an image.'))
+    }
+    cb(null, true)
+  },
+  storage: storage2
+});
+
+router.post('/profileImg', upload3.single('image'), async function (req, res) {
+  const JWT = req.headers.authorization;
+	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
+	const user_id = payload.id.id;
+
+  // check if all the information is filled
+  if (!req.file) return res.status(400).send({message: 'Please upload the image.'});
+
+  const image = req.file.path;
+
+  try {
+    await db.connect();
+    console.log('Connection Success');
+
+    const database = db.db('HanDOL');
+    const users = database.collection('users');
+
+    const filter = { _id: mongo.ObjectId(user_id) };
+    const update = { $set: { image: image }};
+
+    const result = await users.updateOne(filter, update);
+    res.status(200).send({message: 'Successfully updated profile image.'});
+  } catch (err) {
+    console.log(err);
+  } finally {
+    db.close();
+  }
+});
+
 module.exports = router;
