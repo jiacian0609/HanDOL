@@ -17,6 +17,7 @@ export default function PostPage() {
 
     function handleSubmit() {
         const content = document.getElementById('content').value;
+        // console.log(image);
         
         api.post(content, image)
         .then(res => {

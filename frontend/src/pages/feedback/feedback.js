@@ -16,10 +16,13 @@ export default function Feedback() {
         .then(res => {
             window.alert(res);
             window.location.reload();
-		})
-		.catch(err => {
-			window.alert(err.response.data.message);
-		})
+        })
+        .catch( (err) => {
+            console.log(err);
+                if (err.code === 'ERR_BAD_RESPONSE')
+                    window.alert('Please upload an image. (jpg/jpeg/png)');
+            else window.alert(err.response.data.message);
+        })
     }
 
     return (
