@@ -136,7 +136,7 @@ export const api = {
     },
     signUp(username, email, password) {
         return (
-            axios.post('http://localhost:3000/users/signup', {
+            axios.post(hostname + '/users/signup', {
                 'username': username,
                 'email': email,
                 'password': password
@@ -151,26 +151,39 @@ export const api = {
             })
         )
     },
-    getUsername() {
+    getUserInfo() {
         return (
-            axios.get('http://localhost:3000/users/username', {
+            axios.get(hostname + '/users/userInfo', {
                 headers: {
                     'Authorization': window.localStorage.getItem('JWT')
                 }
             })
-            .then(res => res.data.username)
+            .then(res => res.data.info)
             .catch(err => console.log(err))
         )
     },
     getPersonalPosts() {
         return (
-            axios.get('http://localhost:3000/posts/personal', {
+            axios.get(hostname + '/posts/personal', {
                 headers: {
                     'Authorization': window.localStorage.getItem('JWT')
                 }
             })
             .then(res => res.data.posts)
             .catch(err => console.log(err))
+        )
+    },
+    profileImg(image) {
+        return (
+            axios.post(hostname + '/users/profileImg', {
+                image: image
+            }, {
+                headers: {
+                'Authorization': window.localStorage.getItem('JWT'),
+                'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => res.data.message)
         )
     }
 };

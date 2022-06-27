@@ -23,7 +23,7 @@ export const ProfileImg = styled.img `
     border-radius: 50%;
     border: solid 10px #FFFFFF;
     background-color: #F2F2F2;
-    background-size: cover;
+    background-size: contain;
 `
 
 export const ProfileUsername = styled.div `
@@ -111,4 +111,38 @@ export const ProfileSettingButton = styled.button `
     &:hover {
         border: solid 3px #8B775A;
     }
+`
+
+export const ProfileUploadWrapper = styled.div `
+    // width: 500px;
+    height: fit-content;
+
+    padding: 30px;
+
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+
+export const ProfileUploadImg = styled.img `
+    max-width: 300px;
+    max-height: 300px;
+
+    background-color: #F2F2F2;
+    backgroune-size: contain;
+`
+
+export const ProfileUpload = styled.input `
+    width: 100%;
+    margin: 10px 0;
+
+    font-family: Overpass;
+    font-size: 16px;
+    text-align: left;
+    line-height: 16px;
 `

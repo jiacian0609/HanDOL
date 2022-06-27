@@ -1,21 +1,68 @@
 import { api } from '../../api.js';
 import { useState, useEffect  } from 'react';
-import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButtons, ProfileButton, ProfileContentWrapper, ProfileSettingButtons, ProfileSettingButton } from './profile-style.js';
+import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButtons, ProfileButton, ProfileContentWrapper, ProfileSettingButtons, ProfileSettingButton, ProfileUploadWrapper, ProfileUploadImg, ProfileUpload } from './profile-style.js';
 import Post from '../../components/Post';
+import SubmitButton from '../../components/SubmitButton';
+
+function UploadImg(setSetting) {
+    const [image, setImage] = useState();
+    const [imgURL, setImgURL] = useState();
+
+    function handleUpload(e) {
+        // console.log(e);
+        if(e.target.files && e.target.files[0]){
+            setImage(e.target.files[0]);
+            setImgURL(URL.createObjectURL(e.target.files[0]));
+        }
+    }
+
+    function handleSubmit() {
+        api.profileImg(image)
+        .then(res => {
+            window.alert(res);
+            setSetting(undefined);
+            window.location.reload();
+		})
+		.catch(err => {
+            // console.log(err);
+            if (err.code === 'ERR_BAD_RESPONSE')
+                window.alert('Please upload an image. (jpg/jpeg/png)');
+			else window.alert(err.response.data.message);
+		})
+    }
+
+    return (
+        <ProfileUploadWrapper>
+            <ProfileUploadImg id='img' src={imgURL} />
+            <ProfileUpload
+                type='file'
+                name='image'
+                accept='image/*'
+                onChange={e => handleUpload(e)}
+            />
+            <SubmitButton handleSubmit={handleSubmit} />
+        </ProfileUploadWrapper>
+    )
+}
 
 export default function Profile() {
     const [username, setUsername] = useState();
+    const [img, setImg] = useState('');
 
     const [post, setPost] = useState(true);
     const [template, setTemplate] = useState(false);
     const [settings, setSettings] = useState(false);
+    const [setting, setSetting] = useState();
 
     const [posts, setPosts] = useState([]);
     const [likes, setLikes] = useState([]);
 
     useEffect(() => {
-        api.getUsername()
-        .then(res => setUsername(res));
+        api.getUserInfo()
+        .then(res => {
+            setUsername(res.username);
+            setImg('http://localhost:3000/' + res.image);
+        });
     }, []);
 
     useEffect(() => {
@@ -45,7 +92,7 @@ export default function Profile() {
     return (
         <ProfileWrapper>
             <ProfileInfo>
-                <ProfileImg />
+                <ProfileImg src={img} />
                 <ProfileUsername>{username}</ProfileUsername>
             </ProfileInfo>
             <ProfileButtons>
@@ -57,7 +104,7 @@ export default function Profile() {
                 </ProfileButton>
                 <ProfileButton
                     active={settings}
-                    onClick={() => {setSettings(true); setPost(false); setTemplate(false)}}
+                    onClick={() => {setSettings(true); setPost(false); setTemplate(false); setSetting(undefined)}}
                 >
                     Settings
                 </ProfileButton>
@@ -72,9 +119,10 @@ export default function Profile() {
                         liked={likes.includes(post._id)}
                     />
                 )}
-                {settings && 
+                {settings && setting === 'upload' && <UploadImg setSetting={setSetting} />}
+                {settings && setting === undefined &&
                     <ProfileSettingButtons>
-                        <ProfileSettingButton>
+                        <ProfileSettingButton onClick={() => setSetting('upload')}>
                             Upload Profile Image
                         </ProfileSettingButton>
                     </ProfileSettingButtons>
