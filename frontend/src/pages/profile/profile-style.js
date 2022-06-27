@@ -23,7 +23,7 @@ export const ProfileImg = styled.img `
     border-radius: 50%;
     border: solid 10px #FFFFFF;
     background-color: #F2F2F2;
-    background-size: cover;
+    background-size: contain;
 `
 
 export const ProfileUsername = styled.div `

@@ -21,6 +21,7 @@ function UploadImg(setSetting) {
         .then(res => {
             window.alert(res);
             setSetting(undefined);
+            window.location.reload();
 		})
 		.catch(err => {
             // console.log(err);
@@ -46,6 +47,7 @@ function UploadImg(setSetting) {
 
 export default function Profile() {
     const [username, setUsername] = useState();
+    const [img, setImg] = useState('');
 
     const [post, setPost] = useState(true);
     const [template, setTemplate] = useState(false);
@@ -56,8 +58,11 @@ export default function Profile() {
     const [likes, setLikes] = useState([]);
 
     useEffect(() => {
-        api.getUsername()
-        .then(res => setUsername(res));
+        api.getUserInfo()
+        .then(res => {
+            setUsername(res.username);
+            setImg('http://localhost:3000/' + res.image);
+        });
     }, []);
 
     useEffect(() => {
@@ -87,7 +92,7 @@ export default function Profile() {
     return (
         <ProfileWrapper>
             <ProfileInfo>
-                <ProfileImg />
+                <ProfileImg src={img} />
                 <ProfileUsername>{username}</ProfileUsername>
             </ProfileInfo>
             <ProfileButtons>

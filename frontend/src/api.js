@@ -151,14 +151,14 @@ export const api = {
             })
         )
     },
-    getUsername() {
+    getUserInfo() {
         return (
-            axios.get(hostname + '/users/username', {
+            axios.get(hostname + '/users/userInfo', {
                 headers: {
                     'Authorization': window.localStorage.getItem('JWT')
                 }
             })
-            .then(res => res.data.username)
+            .then(res => res.data.info)
             .catch(err => console.log(err))
         )
     },

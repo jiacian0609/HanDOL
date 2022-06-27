@@ -456,7 +456,7 @@ router.post('/feedback', upload2.single('image'), async function (req, res) {
 });
 
 /* GET username */
-router.get('/username', async function(req, res, next) {
+router.get('/userInfo', async function(req, res, next) {
   const JWT = req.headers.authorization;
 	const payload = jwt.verify(JWT, process.env.TOKEN_SECRET);
 	const user_id = payload.id.id;
@@ -468,14 +468,14 @@ router.get('/username', async function(req, res, next) {
     const database = db.db('HanDOL');
     const users = database.collection('users');
     const query = { _id: mongo.ObjectId(user_id) };
-    const options = { projection: { _id: 0, username: 1 } };
+    const options = { projection: { _id: 0, username: 1, image: 1 } };
     const user = await users.findOne(query, options);
 
     console.log(user_id);
 
     res.status(200).send({
-      message: 'successfully get username',
-      username: user.username
+      message: 'successfully get user info',
+      info: user
     });
   } catch (err) {
     console.log(err);
