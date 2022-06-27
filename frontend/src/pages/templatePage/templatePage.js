@@ -74,10 +74,38 @@ function SellTemplate({rmCardFromList, records}) {
                         handleClick={() => rmCardFromList(index, sellList, setSellList)}
                         active={records.includes(card._id)}
                     />
-                    <TemplateEditPrice />
+                    <TemplateEditPrice placeholder='$'/>
                 </TemplateEditSellField>
             )}
         </TemplateEditList>
+    )
+}
+
+function BuyTemplate({rmCardFromList, records}) {
+    const [buyList, setBuyList] = useState([]);
+
+    const [{buyListIsOver}, buyDropRef] = useDrop(() => ({
+        accept: 'card',
+        drop: item => setBuyList(templateList => [...templateList, item.card]),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver()
+        })
+    }))
+
+    return (
+        <>
+            <TemplateEditSubtitle>Want to buy...</TemplateEditSubtitle>
+            <TemplateEditList ref={buyDropRef}>
+                {buyList?.map((card, index) =>
+                    <Card
+                        key={index}
+                        card={card}
+                        handleClick={() => rmCardFromList(index, buyList, setBuyList)}
+                        active={records.includes(card._id)}
+                    />
+                )}
+            </TemplateEditList>
+        </>
     )
 }
 
@@ -296,6 +324,7 @@ export default function Template() {
                         >
                             <option value='exchange'>Exchange</option>
                             <option value='sell'>Sell</option>
+                            <option value='buy'>Buy</option>
                         </TemplateSelector>
                     </TemplateSelectorField>
                     <SubmitButton handleSubmit={exportTemplate} />
@@ -304,6 +333,7 @@ export default function Template() {
                     {group && album && <TemplateEditTitle>{group.name} ▪︎ {album.name}</TemplateEditTitle>}
                     {template === 'exchange' && <ExchangeTemplate rmCardFromList={rmCardFromList} records={records} />}
                     {template === 'sell' && <SellTemplate rmCardFromList={rmCardFromList} records={records} />}
+                    {template === 'buy' && <BuyTemplate rmCardFromList={rmCardFromList} records={records} />}
                 </TemplateEditField>
             </TemplateEditor>
         </TemplateWrapper>

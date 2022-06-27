@@ -128,5 +128,5 @@ export const TemplateEditPrice = styled.input `
     line-height: 24px;
 
     border: none;
-    background-color: #F2F2F2;
+    // background-color: #F2F2F2;
 `
