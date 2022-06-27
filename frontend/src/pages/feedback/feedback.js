@@ -29,7 +29,10 @@ export default function Feedback() {
             window.location.reload();
 		})
 		.catch( (err) => {
-			window.alert(err.response.data.message);
+			// console.log(err);
+            if (err.code === 'ERR_BAD_RESPONSE')
+                window.alert('Please upload an image. (jpg/jpeg/png)');
+			else window.alert(err.response.data.message);
 		})
     }
 

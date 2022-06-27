@@ -19,6 +19,7 @@ export default function PostPage() {
 
     function handleSubmit() {
         const content = document.getElementById('content').value;
+        // console.log(image);
         
         axios.post('http://localhost:3000/users/post', {
             content: content,
