@@ -43,7 +43,7 @@ export const TemplateSelector = styled.select `
 
 export const TemplateListWrapper = styled.div `
     width: 300px;
-    height: 450px;
+    height: 500px;
 
     margin-top: 30px;
 
@@ -78,7 +78,8 @@ export const TemplateEditHeader = styled.div `
 
 export const TemplateEditField = styled.div `
     width: 720px;
-    height: 1280px;
+    min-height: 680px;
+    max-height: 1280px;
 
     padding: 20px;
 
@@ -87,9 +88,24 @@ export const TemplateEditField = styled.div `
     background-color: #FFFFFF;
 `
 
+export const TemplateEditTitle = styled.div `
+    font-family: Overpass;
+    font-size: 30px;
+    text-align: center;
+`
+
+export const TemplateEditSubtitle = styled.div `
+    margin-top: 20px;
+    font-family: Overpass;
+    font-size: 24px;
+    text-align: left;
+`
+
 export const TemplateEditList = styled.div `
     width: 100%;
-    height: 100%;
+    min-height: 250px;
+    // height: 100%;
+
     display: flex;
     flex-wrap: wrap;
     gap: 15px;

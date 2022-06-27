@@ -2,9 +2,57 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { exportComponentAsPNG } from 'react-component-export-image';
 import { useDrop } from 'react-dnd';
-import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditList, TemplateListContainer } from './templatePage-style.js';
+import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateListContainer, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditTitle, TemplateEditSubtitle, TemplateEditList } from './templatePage-style.js';
 import SubmitButton from '../../components/SubmitButton';
 import Card from '../../components/Card';
+
+function ExchangeTemplate({rmCardFromList, records}) {
+    const [haveList, setHaveList] = useState([]);
+    const [wantList, setWantList] = useState([]);
+
+    const [{haveListIsOver}, haveDropRef] = useDrop(() => ({
+        accept: 'card',
+        drop: item => setHaveList(templateList => [...templateList, item.card]),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver()
+        })
+    }))
+
+    const [{wantListIsOver}, wantDropRef] = useDrop(() => ({
+        accept: 'card',
+        drop: item => setWantList(templateList => [...templateList, item.card]),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver()
+        })
+    }))
+
+    return (
+        <>
+            <TemplateEditSubtitle>I have...</TemplateEditSubtitle>
+            <TemplateEditList ref={haveDropRef}>
+                {haveList?.map((card, index) =>
+                    <Card
+                        key={index}
+                        card={card}
+                        handleClick={() => rmCardFromList(index, haveList, setHaveList)}
+                        active={records.includes(card._id)}
+                    />
+                )}
+            </TemplateEditList>
+            <TemplateEditSubtitle>I want...</TemplateEditSubtitle>
+            <TemplateEditList ref={wantDropRef}>
+                {wantList?.map((card, index) =>
+                    <Card
+                        key={index}
+                        card={card}
+                        handleClick={() => rmCardFromList(index, wantList, setWantList)}
+                        active={records.includes(card._id)}
+                    />
+                )}
+            </TemplateEditList>
+        </>
+    )
+}
 
 export default function Template() {
     /* for card list */
@@ -21,21 +69,8 @@ export default function Template() {
 
     /* for editor */
     const [template, setTemplate] = useState('exchange');
-    const [templateList, setTemplateList] = useState([]);
-
-    function addCard2Template(card) {
-        // console.log('drop', card._id);
-        setTemplateList(templateList => [...templateList, card]);
-    }
 
     const componentRef = useRef();
-    const [{isOver}, dropRef] = useDrop(() => ({
-        accept: 'card',
-        drop: item => addCard2Template(item.card),
-        collect: (monitor) => ({
-            isOver: !!monitor.isOver()
-        })
-    }))
 
     useEffect(() => {
         if (!group) getGroups();
@@ -146,8 +181,8 @@ export default function Template() {
     function record(card) {
     };
 
-    function rmCardFromList(index) {
-        setTemplateList(templateList.filter((item, id) => id !== index))
+    function rmCardFromList(index, list, setList) {
+        setList(list.filter((item, id) => id !== index))
     }
 
     function exportTemplate() {
@@ -238,16 +273,8 @@ export default function Template() {
                     <SubmitButton handleSubmit={exportTemplate} />
                 </TemplateEditHeader>
                 <TemplateEditField ref={componentRef}>
-                    <TemplateEditList ref={dropRef}>
-                        {templateList?.map((card, index) =>
-                            <Card
-                                key={index}
-                                card={card}
-                                handleClick={() => rmCardFromList(index)}
-                                active={records.includes(card._id)}
-                            />
-                        )}
-                    </TemplateEditList>
+                    {group && album && <TemplateEditTitle>{group.name} ▪︎ {album.name}</TemplateEditTitle> }
+                    <ExchangeTemplate rmCardFromList={rmCardFromList} records={records} />
                 </TemplateEditField>
             </TemplateEditor>
         </TemplateWrapper>
