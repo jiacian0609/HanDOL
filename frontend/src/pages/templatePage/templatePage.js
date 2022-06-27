@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { exportComponentAsPNG } from 'react-component-export-image';
 import { useDrop } from 'react-dnd';
-import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateListContainer, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditTitle, TemplateEditSubtitle, TemplateEditList } from './templatePage-style.js';
+import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateListContainer, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditTitle, TemplateEditSubtitle, TemplateEditList, TemplateEditSellField, TemplateEditPrice } from './templatePage-style.js';
 import SubmitButton from '../../components/SubmitButton';
 import Card from '../../components/Card';
 
@@ -51,6 +51,33 @@ function ExchangeTemplate({rmCardFromList, records}) {
                 )}
             </TemplateEditList>
         </>
+    )
+}
+
+function SellTemplate({rmCardFromList, records}) {
+    const [sellList, setSellList] = useState([]);
+
+    const [{sellListIsOver}, sellDropRef] = useDrop(() => ({
+        accept: 'card',
+        drop: item => setSellList(templateList => [...templateList, item.card]),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver()
+        })
+    }))
+
+    return (
+        <TemplateEditList ref={sellDropRef}>
+            {sellList?.map((card, index) =>
+                <TemplateEditSellField key={index}>
+                    <Card
+                        card={card}
+                        handleClick={() => rmCardFromList(index, sellList, setSellList)}
+                        active={records.includes(card._id)}
+                    />
+                    <TemplateEditPrice />
+                </TemplateEditSellField>
+            )}
+        </TemplateEditList>
     )
 }
 
@@ -268,13 +295,15 @@ export default function Template() {
                             onChange={e => setTemplate(e.target.value)}
                         >
                             <option value='exchange'>Exchange</option>
+                            <option value='sell'>Sell</option>
                         </TemplateSelector>
                     </TemplateSelectorField>
                     <SubmitButton handleSubmit={exportTemplate} />
                 </TemplateEditHeader>
                 <TemplateEditField ref={componentRef}>
-                    {group && album && <TemplateEditTitle>{group.name} ▪︎ {album.name}</TemplateEditTitle> }
-                    <ExchangeTemplate rmCardFromList={rmCardFromList} records={records} />
+                    {group && album && <TemplateEditTitle>{group.name} ▪︎ {album.name}</TemplateEditTitle>}
+                    {template === 'exchange' && <ExchangeTemplate rmCardFromList={rmCardFromList} records={records} />}
+                    {template === 'sell' && <SellTemplate rmCardFromList={rmCardFromList} records={records} />}
                 </TemplateEditField>
             </TemplateEditor>
         </TemplateWrapper>

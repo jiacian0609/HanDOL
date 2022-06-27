@@ -103,10 +103,30 @@ export const TemplateEditSubtitle = styled.div `
 
 export const TemplateEditList = styled.div `
     width: 100%;
-    min-height: 250px;
+    min-height: 300px;
     // height: 100%;
 
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+`
+
+export const TemplateEditSellField = styled.div `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+export const TemplateEditPrice = styled.input `
+    width: 100px;
+    margin-top: 10px;
+    padding: 1px;
+
+    font-family: Overpass;
+    font-size: 24px;
+    text-align: center;
+    line-height: 24px;
+
+    border: none;
+    background-color: #F2F2F2;
 `
