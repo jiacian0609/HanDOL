@@ -1,7 +1,38 @@
 import { api } from '../../api.js';
 import { useState, useEffect  } from 'react';
-import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButtons, ProfileButton, ProfileContentWrapper, ProfileSettingButtons, ProfileSettingButton } from './profile-style.js';
+import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButtons, ProfileButton, ProfileContentWrapper, ProfileSettingButtons, ProfileSettingButton, ProfileUploadWrapper, ProfileUploadImg, ProfileUpload } from './profile-style.js';
 import Post from '../../components/Post';
+import SubmitButton from '../../components/SubmitButton';
+
+function UploadImg() {
+    const [image, setImage] = useState();
+    const [imgURL, setImgURL] = useState();
+
+    function handleUpload(e) {
+        // console.log(e);
+        if(e.target.files && e.target.files[0]){
+            setImage(e.target.files[0]);
+            setImgURL(URL.createObjectURL(e.target.files[0]));
+        }
+    }
+
+    function handleSubmit() {
+        
+    }
+
+    return (
+        <ProfileUploadWrapper>
+            <ProfileUploadImg id='img' src={imgURL} />
+            <ProfileUpload
+                type='file'
+                name='image'
+                accept='image/*'
+                onChange={e => handleUpload(e)}
+            />
+            <SubmitButton handleSubmit={handleSubmit} />
+        </ProfileUploadWrapper>
+    )
+}
 
 export default function Profile() {
     const [username, setUsername] = useState();
@@ -9,6 +40,7 @@ export default function Profile() {
     const [post, setPost] = useState(true);
     const [template, setTemplate] = useState(false);
     const [settings, setSettings] = useState(false);
+    const [setting, setSetting] = useState();
 
     const [posts, setPosts] = useState([]);
     const [likes, setLikes] = useState([]);
@@ -72,9 +104,10 @@ export default function Profile() {
                         liked={likes.includes(post._id)}
                     />
                 )}
-                {settings && 
+                {settings && setting === 'upload' && <UploadImg />}
+                {settings && setting === undefined &&
                     <ProfileSettingButtons>
-                        <ProfileSettingButton>
+                        <ProfileSettingButton onClick={() => setSetting('upload')}>
                             Upload Profile Image
                         </ProfileSettingButton>
                     </ProfileSettingButtons>
