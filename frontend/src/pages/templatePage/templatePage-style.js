@@ -95,16 +95,17 @@ export const TemplateEditTitle = styled.div `
 `
 
 export const TemplateEditSubtitle = styled.div `
-    margin-top: 20px;
+    // margin-top: 20px;
     font-family: Overpass;
     font-size: 24px;
-    text-align: left;
+    text-align: center;
 `
 
 export const TemplateEditList = styled.div `
     width: 100%;
     min-height: 300px;
     // height: 100%;
+    margin-bottom: 20px;
 
     display: flex;
     flex-wrap: wrap;
