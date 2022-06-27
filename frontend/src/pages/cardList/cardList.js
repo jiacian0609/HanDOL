@@ -16,7 +16,7 @@ export default function CardList() {
     const [cards, setCards] = useState([]);
     const [records, setRecords] = useState([]);
 
-    console.log(records);
+    // console.log(records);
 
     useEffect(() => {
         if (!group)

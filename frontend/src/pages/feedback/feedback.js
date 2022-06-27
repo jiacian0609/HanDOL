@@ -1,34 +1,23 @@
-import axios from 'axios';
-import { useState, useEffect  } from 'react';
+import { api } from '../../api.js';
+import { useState } from 'react';
 import { FeedbackWrapper, FeedbackTitleField, FeedbackTitle, FeedbackType, FeedbackContent, FeedbackUpload } from './feedback-style.js';
 import SubmitButton from '../../components/SubmitButton';
 
 export default function Feedback() {
     const [image, setImage] = useState();
-    console.log('image: ', image);
+    // console.log('image: ', image);
 
     function handleSubmit() {
         const title = document.getElementById('title').value;
         const type = document.getElementById('type').value;
         const content = document.getElementById('content').value;
         
-        axios.post('http://localhost:3000/users/feedback', {
-            title: title,
-            type: type,
-            content: content,
-            image: image
-        }, {
-			headers: {
-			  'Authorization': window.localStorage.getItem('JWT'),
-              'Content-Type': 'multipart/form-data'
-			}
-		})
-        .then( (res) => {
-            // console.log(res.data);
-            window.alert(res.data.message);
+        api.feedback(title, type, content, image)
+        .then(res => {
+            window.alert(res);
             window.location.reload();
 		})
-		.catch( (err) => {
+		.catch(err => {
 			window.alert(err.response.data.message);
 		})
     }

@@ -1,5 +1,5 @@
+import { api } from '../../api';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { HomeWrapper, HomeButton } from './home-style';
 import Post from '../../components/Post';
 
@@ -7,19 +7,13 @@ export default function Home() {
     const [posts, setPosts] = useState([]);
     const [likes, setLikes] = useState([]);
 
-    // console.log(likes);
-
     /* get posts */
     useEffect(() => {
-        axios.get('http://localhost:3000/posts')
+        api.getPost()
         .then(res => {
-            // console.log('res:', res.data.posts);
-            setPosts(res.data.posts);
-            getLikes()
+            setPosts(res);
+            getLikes();
         })
-		.catch(err => {
-			console.log(err);
-		})
     }, []);
 
     /* create post */
@@ -27,39 +21,19 @@ export default function Home() {
         window.location.href = '/post';
     }
 
-    /* like a post */
     function like(post_id) {
         // console.log('like', post_id);
-
-        axios.post('http://localhost:3000/users/like', { post_id: post_id }, {
-            headers: {
-                'Authorization': localStorage.getItem('JWT')
-            }
-        })
+        api.like(post_id)
         .then(res => {
             // console.log('res:', res.data);
             // window.alert(res.data.message);
             getLikes();
         })
-        .catch(err => {
-            console.log(err);
-        })
     }
 
-    /* get likes */
-    async function getLikes() {
-        axios.get('http://localhost:3000/users/like', {
-			headers: {
-			  'Authorization': localStorage.getItem('JWT')
-			}
-		})
-        .then(res => {
-            // console.log('records:', res.data.records);
-            setLikes(res.data.likes);
-        })
-		.catch(err => {
-			console.log(err);
-		})
+    function getLikes() {
+        api.getLikes()
+        .then(res => setLikes(res));
     }
     
     return (

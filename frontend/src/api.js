@@ -55,9 +55,122 @@ export const api = {
                     Authorization: window.localStorage.getItem('JWT')
                 }
             })
-            .catch(err => {
-                console.log(err);
+            .catch(err => console.log(err))
+        )
+    },
+    post(content, image) {
+        return (
+            axios.post(hostname + '/users/post', {
+                content: content,
+                image: image
+            }, {
+                headers: {
+                'Authorization': window.localStorage.getItem('JWT'),
+                'Content-Type': 'multipart/form-data'
+                }
             })
+            .then(res => res.data.message)
+        )
+    },
+    feedback(title, type, content, image) {
+        return (
+            axios.post(hostname + '/users/feedback', {
+                title: title,
+                type: type,
+                content: content,
+                image: image
+            }, {
+                headers: {
+                'Authorization': window.localStorage.getItem('JWT'),
+                'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => res.data.message)
+        )
+    },
+    getPost() {
+        return (
+            axios.get(hostname + '/posts')
+            .then(res => res.data.posts)
+            .catch(err => console.log(err))
+        )
+    },
+    like(post_id) {
+        return (
+            axios.post(hostname + '/users/like', { post_id: post_id }, {
+                headers: {
+                    'Authorization': window.localStorage.getItem('JWT')
+                }
+            })
+            .then(res => res)
+            .catch(err => console.log(err))
+        )
+    },
+    getLikes() {
+        return (
+            axios.get(hostname + '/users/like', {
+                headers: {
+                    'Authorization': window.localStorage.getItem('JWT')
+                }
+            })
+            .then(res => res.data.likes)
+            .catch(err => console.log(err))
+        )
+    },
+    signIn(account, password) {
+        return (
+            axios.post(hostname + '/users/signin', {
+                'account': account,
+                'password': password
+            })
+            .then(res => {
+                // console.log(res.data);
+                // window.alert(res.data.message);
+                window.localStorage.setItem('JWT', res.data.token);
+                window.location.href = '/home';
+            })
+            .catch(err => {
+                window.alert(err.response.data.message);
+            })
+        )
+    },
+    signUp(username, email, password) {
+        return (
+            axios.post('http://localhost:3000/users/signup', {
+                'username': username,
+                'email': email,
+                'password': password
+            })
+            .then(res => {
+                window.alert(res.data.message);
+                window.localStorage.setItem('JWT', res.data.JWT)
+                // window.location.href = "/home"
+            })
+            .catch(err => {
+                window.alert(err.response.data.message);
+            })
+        )
+    },
+    getUsername() {
+        return (
+            axios.get('http://localhost:3000/users/username', {
+                headers: {
+                    'Authorization': window.localStorage.getItem('JWT')
+                }
+            })
+            .then(res => res.data.username)
+            .catch(err => console.log(err))
+        )
+    },
+    getPersonalPosts() {
+        return (
+            axios.get('http://localhost:3000/posts/personal', {
+                headers: {
+                    'Authorization': window.localStorage.getItem('JWT')
+                }
+            })
+            .then(res => res.data.posts)
+            .catch(err => console.log(err))
         )
     }
 };

@@ -1,4 +1,3 @@
-import './layout-style.js';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { LayoutWrapper } from './layout-style.js';

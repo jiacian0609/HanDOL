@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../../api.js';
 import { useState, useEffect  } from 'react';
 import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButtons, ProfileButton, ProfileContentWrapper, ProfileSettingButtons, ProfileSettingButton } from './profile-style.js';
 import Post from '../../components/Post';
@@ -14,77 +14,32 @@ export default function Profile() {
     const [likes, setLikes] = useState([]);
 
     useEffect(() => {
-        getUsername();
+        api.getUsername()
+        .then(res => setUsername(res));
     }, []);
 
     useEffect(() => {
-        if (username) getPersonalPosts();
+        if (username)
+            api.getPersonalPosts()
+            .then(res => {
+                setPosts(res);
+                getLikes();
+            });
     }, [username]);
 
-    function getUsername() {
-        axios.get('http://localhost:3000/users/username', {
-            headers: {
-                'Authorization': localStorage.getItem('JWT')
-            }
-        })
-        .then(res => {
-            console.log(res);
-            setUsername(res.data.username);
-        })
-		.catch(err => {
-			console.log(err);
-		})
-    }
-
-    function getPersonalPosts() {
-        axios.get('http://localhost:3000/posts/personal', {
-            headers: {
-                'Authorization': localStorage.getItem('JWT')
-            }
-        })
-        .then(res => {
-            // console.log('res:', res.data.posts);
-            setPosts(res.data.posts);
-            getLikes()
-        })
-		.catch(err => {
-			console.log(err);
-		})
-    }
-
-    /* get likes */
-    async function getLikes() {
-        axios.get('http://localhost:3000/users/like', {
-			headers: {
-			  'Authorization': localStorage.getItem('JWT')
-			}
-		})
-        .then(res => {
-            // console.log('records:', res.data.records);
-            setLikes(res.data.likes);
-        })
-		.catch(err => {
-			console.log(err);
-		})
-    }
-
-    /* like a post */
     function like(post_id) {
         // console.log('like', post_id);
-
-        axios.post('http://localhost:3000/users/like', { post_id: post_id }, {
-            headers: {
-                'Authorization': localStorage.getItem('JWT')
-            }
-        })
+        api.like(post_id)
         .then(res => {
             // console.log('res:', res.data);
             // window.alert(res.data.message);
             getLikes();
         })
-        .catch(err => {
-            console.log(err);
-        })
+    }
+
+    function getLikes() {
+        api.getLikes()
+        .then(res => setLikes(res));
     }
 
     return (
