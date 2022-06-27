@@ -26,7 +26,7 @@ export default function Post({post, like, liked}) {
 		})
     }
 
-    function handleComment() {
+    function handleComment(e) {
         const content = document.getElementById('comment').value;
         
         axios.post('http://localhost:3000/users/comment', {
@@ -39,8 +39,8 @@ export default function Post({post, like, liked}) {
 		})
         .then( (res) => {
             // console.log(res.data);
-            // window.alert(res.data.message);
-            window.location.reload();
+            getComments();
+            e.target.value = '';
 		})
 		.catch( (err) => {
 			window.alert(err.response.data.message);
@@ -69,7 +69,7 @@ export default function Post({post, like, liked}) {
                             <PostContent>{comment.content}</PostContent>
                         </PostComment>
                     )}
-                    <PostCommentInput id='comment' onKeyPress={(e) => e.key === 'Enter' && handleComment()} />
+                    <PostCommentInput id='comment' onKeyPress={(e) => e.key === 'Enter' && handleComment(e)} />
                 </PostCommentField>
             }
         </PostWrapper>

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../../api.js';
 import { useState, useEffect, useRef } from 'react';
 import { exportComponentAsPNG } from 'react-component-export-image';
 import { useDrop } from 'react-dnd';
@@ -128,75 +128,43 @@ export default function Template() {
     const componentRef = useRef();
 
     useEffect(() => {
-        if (!group) getGroups();
+        if (!group)
+            api.getGroups()
+            .then(res => {
+                setGroups(res);
+                setGroup(res[0]);
+            });
 	}, []);
 
     useEffect(() => {
-        if (group) getMembers();
+        if (group)
+            api.getMembers(group._id)
+            .then(res => {
+                setMembers(res);
+                setMember('all');
+            });
     }, [group]);
 
     useEffect(() => {
-        if (member) getAlbums();
+        if (member)
+            api.getAlbums(group._id)
+            .then(res => {
+                setAlbums(res);
+                setAlbum(res[0]);
+            });
     }, [member]);
 
     useEffect(() => {
-        if (album) getVersions();
+        if (album)
+            api.getVersions(album._id)
+            .then(res => {
+                setVersions(res);
+                setVersion('all');
+            });
     }, [album]);
-
-    function getGroups() {
-        // console.log('getting groups');
-        axios.get('http://localhost:3000/cards/groups')
-        .then(res => {
-            // console.log('group res:', res.data.groups);
-            // getRecord();
-            setGroups(res.data.groups);
-            setGroup(res.data.groups[0]);
-        })
-		.catch(err => {
-			console.log(err);
-		})
-    }
-
-    function getMembers() {
-        // console.log('getting members');
-        axios.get('http://localhost:3000/cards/members/' + group._id)
-        .then(res => {
-            // console.log('res:', res);
-            setMembers(res.data.members);
-            setMember('all');
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
-
-    function getAlbums() {
-        axios.get('http://localhost:3000/cards/albums/' + group._id)
-        .then(res => {
-            // console.log('res:', res);
-            setAlbums(res.data.albums);
-            setAlbum(res.data.albums[0]);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
-
-    function getVersions() {
-        axios.get('http://localhost:3000/cards/versions/' + album._id)
-        .then(res => {
-            // console.log('res:', res);
-            setVersions(res.data.versions);
-            setVersion('all');
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
 
     function getCards() {
         let query;
-        // console.log(group, member, album, version)
         if (member !== undefined && version !== undefined)
             query = {group: group.name, member: member._id, album: album.name, version: version._id};
         else if (member !== undefined) 
@@ -205,33 +173,14 @@ export default function Template() {
             query = {group: group.name, album: album.name, version: version._id};
         else query = {group: group.name, album: album.name};
 
-        // console.log(query);
-
-        axios.post('http://localhost:3000/cards/query', query)
+        api.getCards(query)
         .then(res => {
-            // console.log('res:', res.data.cards);
-            setCards(res.data.cards);
-            getRecords();
-        })
-        .catch(err => {
-            console.log(err);
+            setCards(res);
+            
+            api.getRecords()
+            .then(res => setRecords(res));
         })
 	};
-
-    function getRecords() {
-        axios.get('http://localhost:3000/users/record', {
-			headers: {
-			  'Authorization': `${localStorage.getItem('JWT')}`
-			}
-		})
-        .then(res => {
-            // console.log('records:', res.data.records);
-            setRecords(res.data.records);
-        })
-		.catch(err => {
-			console.log(err);
-		})
-    };
 
     function record(card) {
     };

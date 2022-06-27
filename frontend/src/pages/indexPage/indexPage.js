@@ -1,6 +1,5 @@
-import axios from 'axios';
+import { api } from '../../api.js';
 import { useState } from 'react';
-import './indexPage-style.js';
 import { IndexWrapper, IndexTitle, IndexDivider, IndexForm, IndexButtons, IndexButton, IndexFormField, IndexText, IndexInput } from './indexPage-style.js';
 import SubmitButton from '../../components/SubmitButton';
 
@@ -18,37 +17,11 @@ export default function Index() {
 
     function handleSignIn (username, email, password) {
         const account = username ? username : email;
-
-        axios.post('http://localhost:3000/users/signin', {
-            'account': account,
-            'password': password
-        })
-        .then( (res) => {
-            // console.log(res.data);
-            // window.alert(res.data.message);
-			window.localStorage.setItem('JWT', res.data.token);
-            window.location.href = "/home";
-		})
-		.catch( (err) => {
-			window.alert(err.response.data.message);
-		})
+        api.signIn(account, password);
 	}
 
     function handleSignUp (username, email, password) {
-        axios.post('http://localhost:3000/users/signup', {
-            'username': username,
-            'email': email,
-            'password': password
-        })
-        .then( (res) => {
-            console.log(res.data);
-            window.alert(res.data.message);
-			window.localStorage.setItem('JWT', res.data.JWT)
-            // window.location.href = "/home"
-		})
-		.catch( (err) => {
-			window.alert(err.response.data.message);
-		})
+        api.signUp(username, email, password);
 	}
 
     return (
