@@ -4,7 +4,7 @@ import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButton
 import Post from '../../components/Post';
 import SubmitButton from '../../components/SubmitButton';
 
-function UploadImg() {
+function UploadImg(setSetting) {
     const [image, setImage] = useState();
     const [imgURL, setImgURL] = useState();
 
@@ -17,7 +17,17 @@ function UploadImg() {
     }
 
     function handleSubmit() {
-        
+        api.profileImg(image)
+        .then(res => {
+            window.alert(res);
+            setSetting(undefined);
+		})
+		.catch(err => {
+            // console.log(err);
+            if (err.code === 'ERR_BAD_RESPONSE')
+                window.alert('Please upload an image. (jpg/jpeg/png)');
+			else window.alert(err.response.data.message);
+		})
     }
 
     return (
@@ -89,7 +99,7 @@ export default function Profile() {
                 </ProfileButton>
                 <ProfileButton
                     active={settings}
-                    onClick={() => {setSettings(true); setPost(false); setTemplate(false)}}
+                    onClick={() => {setSettings(true); setPost(false); setTemplate(false); setSetting(undefined)}}
                 >
                     Settings
                 </ProfileButton>
@@ -104,7 +114,7 @@ export default function Profile() {
                         liked={likes.includes(post._id)}
                     />
                 )}
-                {settings && setting === 'upload' && <UploadImg />}
+                {settings && setting === 'upload' && <UploadImg setSetting={setSetting} />}
                 {settings && setting === undefined &&
                     <ProfileSettingButtons>
                         <ProfileSettingButton onClick={() => setSetting('upload')}>
