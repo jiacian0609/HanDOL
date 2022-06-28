@@ -6,7 +6,7 @@ export default function Post({post, like, liked}) {
     const [showComment, setShowComment] = useState();
     const [comments, setComments] = useState([]);
 
-    const imgUrl = 'http://localhost:3000/' + post.image;
+    const imgUrl = 'http://52.42.38.39/' + post.image;
 
     useEffect(() => {
     }, [comments]);

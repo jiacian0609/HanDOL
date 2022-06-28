@@ -47,7 +47,7 @@ function UploadImg(setSetting) {
 
 export default function Profile() {
     const [username, setUsername] = useState();
-    const [img, setImg] = useState('');
+    const [img, setImg] = useState(undefined);
 
     const [post, setPost] = useState(true);
     const [template, setTemplate] = useState(false);
@@ -61,7 +61,7 @@ export default function Profile() {
         api.getUserInfo()
         .then(res => {
             setUsername(res.username);
-            setImg('http://localhost:3000/' + res.image);
+            if (res.image) setImg('http://52.42.38.39/' + res.image);
         });
     }, []);
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const hostname = 'http://localhost:3000';
+const hostname = 'http://52.42.38.39';
 export const api = {
     getGroups() {
         return (

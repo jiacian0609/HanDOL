@@ -2,7 +2,7 @@ import { useDrag } from 'react-dnd';
 import { CardImage } from './Card-style.js';
 
 export default function Card({card, handleClick, active}) {
-    const imgUrl = 'http://localhost:3000/' + card.image;
+    const imgUrl = 'http://52.42.38.39/' + card.image;
     // console.log(card._id, active);
 
     const [{isDragging}, dragRef] = useDrag(() => (
