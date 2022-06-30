@@ -13,6 +13,11 @@ export const FeedbackWrapper = styled.div `
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @media screen and (max-width: 500px) {
+        width: 90%;
+        padding: 15px;
+    }
 `
 
 export const FeedbackTitleField = styled.div `
@@ -33,6 +38,11 @@ export const FeedbackTitle = styled.input `
 
     background-color: #F2F2F2;
     border: none;
+
+    @media screen and (max-width: 500px) {
+        width: 100%;
+        margin-bottom: 15px;
+    }
 `
 
 export const FeedbackType = styled.select `
@@ -46,6 +56,10 @@ export const FeedbackType = styled.select `
 
     background-color: #F2F2F2;
     border: none;
+
+    @media screen and (max-width: 500px) {
+        width: 100%;
+    }
 `
 
 export const FeedbackContent = styled.textarea `
