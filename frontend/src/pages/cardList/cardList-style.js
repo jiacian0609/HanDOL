@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const CardListWrapper = styled.div `
     width: 100%;
     height: 100%;
-    padding: 50px 0;
+    // padding: 50px 0;
 
     display: flex;
     flex-direction: column;
@@ -15,8 +15,8 @@ export const CardListSelectors = styled.div `
     // width: 300px;
     // height: 100%;
 
-    position: fixed;
-    top: 60px;
+    // position: fixed;
+    // top: 60px;
 
     display: flex;
     // flex-direction: column;

@@ -1,53 +1,36 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PostWrapper, PostImg, PostButtons, PostButton, PostUsername, PostContent, PostDate, PostContentField, PostCommentField, PostComment, PostCommentInput } from './Post-style.js';
+import { api } from '../../api.js';
 
 export default function Post({post, like, liked}) {
     const [showComment, setShowComment] = useState();
     const [comments, setComments] = useState([]);
 
-    const imgUrl = 'http://52.42.38.39/' + post.image;
+    const imgUrl = 'http://52.37.140.157:3000/' + post.image;
 
     useEffect(() => {
     }, [comments]);
 
     async function handleClickComment() {
-        if (!showComment) await getComments();
+        if (!showComment)
+            await api.getComments(post._id)
+            .then(res => setComments(res));
         setShowComment(!showComment)
-    }
-
-    async function getComments() {
-        axios.get('http://localhost:3000/posts/comment/' + post._id)
-        .then(res => {
-            setComments(res.data.comments);
-        })
-		.catch(err => {
-			console.log(err);
-		})
     }
 
     function handleComment(e) {
         const content = document.getElementById('comment').value;
         
-        axios.post('http://localhost:3000/users/comment', {
-            post_id: post._id,
-            content: content
-        }, {
-			headers: {
-			  'Authorization': window.localStorage.getItem('JWT'),
-			}
-		})
-        .then( (res) => {
-            // console.log(res.data);
-            getComments();
+        api.comment(post._id, content)
+        .then(res => {
+            api.getComments(post._id)
+            .then(res => setComments(res));
             e.target.value = '';
-		})
-		.catch( (err) => {
-			window.alert(err.response.data.message);
-		})
+        });
     }
 
-    console.log(comments);
+    // console.log(comments);
 
     return (
         <PostWrapper>

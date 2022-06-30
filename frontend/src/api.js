@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const hostname = 'http://52.42.38.39';
+const hostname = 'http://52.37.140.157:3000';
 export const api = {
     getGroups() {
         return (
@@ -184,6 +184,29 @@ export const api = {
                 }
             })
             .then(res => res.data.message)
+        )
+    },
+    getComments(post_id) {
+        return(
+            axios.get(hostname + '/posts/comment/' + post_id)
+            .then(res => res.data.comments)
+            .catch(err => console.log(err))
+        )
+    },
+    comment(post_id, content) {
+        return (
+            axios.post(hostname + '/users/comment', {
+                post_id: post_id,
+                content: content
+            }, {
+                headers: {
+                    'Authorization': window.localStorage.getItem('JWT'),
+                }
+            })
+            .then(res => res)
+            .catch(err => {
+                window.alert(err.response.data.message);
+            })
         )
     }
 };
