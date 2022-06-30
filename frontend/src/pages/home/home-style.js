@@ -35,4 +35,9 @@ export const HomeButton = styled.button `
         height: 42px;
         box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.8);
     }
+
+    @media screen and (max-width: 500px) {
+        right: 20px;
+        bottom: 40px;
+    }
 `

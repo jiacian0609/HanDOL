@@ -23,12 +23,11 @@ export default function Home() {
 
     function like(post_id) {
         // console.log('like', post_id);
-        api.like(post_id)
-        .then(res => {
-            // console.log('res:', res.data);
-            // window.alert(res.data.message);
-            getLikes();
-        })
+        if (!likes.includes(post_id))
+            setLikes([...likes, post_id]);
+        else setLikes(likes.filter(post => post !== post_id));
+
+        api.like(post_id);
     }
 
     function getLikes() {
