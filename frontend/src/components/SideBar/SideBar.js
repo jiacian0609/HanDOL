@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { SideBarWrapper, SideBarTopButtons, SideBarDownButtons, SideBarField, SideBarButton, SideBarTitle, SideBarText } from './SideBar-style.js';
+import { SideBarWrapper, SideBarTopButtons, SideBarDownButtons, SideBarField, SideBarTitleButton, SideBarButton, SideBarTitle, SideBarText } from './SideBar-style.js';
 
 export default function SideBar({showSideBar, setShowSideBar}) {
     function handleSignOut() {
@@ -11,7 +11,7 @@ export default function SideBar({showSideBar, setShowSideBar}) {
         <SideBarWrapper show={showSideBar}>
             <SideBarTopButtons>
                 <SideBarField onClick={() => setShowSideBar(!showSideBar)} src='bars'>
-                    <SideBarButton src='bars'/>
+                    <SideBarTitleButton src='bars'/>
                     <SideBarTitle show={showSideBar}>HanDOL</SideBarTitle>
                 </SideBarField>
                 <Link to='home' style={{ textDecoration: 'none', color: 'inherit'}}>
