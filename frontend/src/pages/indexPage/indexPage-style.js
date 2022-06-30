@@ -17,18 +17,30 @@ export const IndexWrapper = styled.div `
 export const IndexTitle = styled.div `
     font-family: Overpass;
     font-size: 50px;
+
+    @media screen and (max-width: 500px) {
+        font-size: 30px;
+    }
 `
 
 export const IndexDivider = styled.div `
-    width: 500px;
+    width: 40%;
     height: 3px;
     background-color: #313538;
     border-radius: 50px;
+
+    @media screen and (max-width: 500px) {
+        width: 70%;
+    }
 `
 
 export const IndexForm = styled.div `
     width: 450px;
     margin-top: 30px;
+
+    @media screen and (max-width: 500px) {
+        width: 100%;
+    }
 `
 
 export const IndexButtons = styled.div `
@@ -59,6 +71,10 @@ export const IndexButton = styled.button `
         color: #FFFFFF;
         background-color: #8B775A;
     `}
+
+    @media screen and (max-width: 500px) {
+        font-size: 15px;
+    }
 `
 
 export const IndexFormField = styled.div `
@@ -66,6 +82,10 @@ export const IndexFormField = styled.div `
 
     display: flex;
     align-items: center;
+
+    @media screen and (max-width: 500px) {
+        flex-direction: column;
+    }
 `
 
 export const IndexText = styled.div `
@@ -73,6 +93,11 @@ export const IndexText = styled.div `
     font-family: Overpass;
     font-size: 20px;
     text-align: left;
+
+    @media screen and (max-width: 500px) {
+        font-size: 15px;
+        width: 60%;
+    }
 `
 
 export const IndexInput = styled.input `
@@ -88,4 +113,8 @@ export const IndexInput = styled.input `
     border: solid 1px #F2F2F2;
     border-radius: 10px;
     box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.2);
+
+    @media screen and (max-width: 500px) {
+        font-size: 12px;
+    }
 `
