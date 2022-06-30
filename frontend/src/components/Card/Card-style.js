@@ -13,4 +13,9 @@ export const CardImage = styled.img `
     ${props => props.active && `
         border: solid 3px #000000;
     `}
+
+    @media screen and (max-width: 500px) {
+        width: 70px;
+        height: 105px;
+    }
 `
