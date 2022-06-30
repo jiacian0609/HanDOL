@@ -4,6 +4,10 @@ export const ProfileWrapper = styled.div `
     width: 100%;
     height: 100%;
     padding: 80px 0;
+
+    @media screen and (max-width: 500px) {
+        padding: 20px 0;
+    }
 `
 
 export const ProfileInfo = styled.div `
@@ -24,6 +28,11 @@ export const ProfileImg = styled.img `
     border: solid 10px #FFFFFF;
     background-color: #F2F2F2;
     background-size: contain;
+
+    @media screen and (max-width: 500px) {
+        width: 80px;
+        height: 80px;
+    }
 `
 
 export const ProfileUsername = styled.div `
@@ -33,10 +42,15 @@ export const ProfileUsername = styled.div `
     font-weight: 900;
     text-align: left;
     line-height: 16px;
+
+    @media screen and (max-width: 500px) {
+        width: 150px;
+        font-size: 20px;
+        font-weight: 800;
+    }
 `
 
 export const ProfileButtons = styled.div `
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,6 +105,10 @@ export const ProfileSettingButtons = styled.div `
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    @media screen and (max-width: 500px) {
+        width: 60%;
+    }
 `
 
 export const ProfileSettingButton = styled.button `
@@ -127,6 +145,10 @@ export const ProfileUploadWrapper = styled.div `
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @media screen and (max-width: 500px) {
+        width: 80%;
+    }
 `
 
 export const ProfileUploadImg = styled.img `
@@ -135,6 +157,11 @@ export const ProfileUploadImg = styled.img `
 
     background-color: #F2F2F2;
     backgroune-size: contain;
+
+    @media screen and (max-width: 500px) {
+        max-width: 200px;
+        max-height: 200px;
+    }
 `
 
 export const ProfileUpload = styled.input `

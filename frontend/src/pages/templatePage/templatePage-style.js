@@ -1,13 +1,26 @@
 import styled from 'styled-components';
 
 export const TemplateWrapper = styled.div `
+    width: 100%;
     height: 100%;
     padding: 50px 0;
     display: flex;
+    justify-content: center;
+
+    @media screen and (max-width: 500px) {
+        // width: fit-content;
+        // height: fit-content;
+        padding: 20px 0;
+        align-items: center;
+        flex-direction: column;
+        justify-content: flex-start;
+        // overflow-x: scroll;
+        overflow-y: scroll;
+    }
 `
 
 export const TemplateSelectors = styled.div `
-    width: 300px;
+    width: 100%;
     // height: 100%;
 
     display: flex;
@@ -49,6 +62,12 @@ export const TemplateListWrapper = styled.div `
 
     overflow-x: scroll;
     overflow-y: scroll;
+
+    @media screen and (max-width: 500px) {
+        margin: 10px 0;
+        width: 330px;
+        height: 500px;
+    }
 `
 
 export const TemplateListContainer = styled.div `
@@ -58,22 +77,48 @@ export const TemplateListContainer = styled.div `
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
+
+    @media screen and (max-width: 500px) {
+        width: 580px;
+        gap: 8px;
+    }
 `
 
 export const TemplateEditor = styled.div `
     width: 850px;
-    height: 100%;
+    height: 300px;
 
     margin-left: 50px;
     
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media screen and (max-width: 500px) {
+        width: 90%;
+        height: 550px;
+        // height: fit-content;
+        margin-top: 5px;
+        margin-left: 0;
+        // overflow-x: scroll;
+        // overflow-y: scroll;
+    }
 `
 
 export const TemplateEditHeader = styled.div `
     display: flex;
     gap: 10px;
+`
+
+export const TemplateEditContainer = styled.div `
+    @media screen and (max-width: 500px) {
+        width: 100%;
+        height: fit-content;
+        margin-top: 5px;
+        margin-left: 0;
+        overflow-x: scroll;
+        overflow-y: scroll;
+    }
 `
 
 export const TemplateEditField = styled.div `
@@ -82,8 +127,6 @@ export const TemplateEditField = styled.div `
     max-height: 1280px;
 
     padding: 20px;
-
-    overflow-y: scroll;
 
     background-color: #FFFFFF;
 `

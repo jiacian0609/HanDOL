@@ -502,7 +502,7 @@ const upload3 = multer({
     }
     cb(null, true)
   },
-  storage: storage2
+  storage: storage3
 });
 
 router.post('/profileImg', upload3.single('image'), async function (req, res) {

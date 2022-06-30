@@ -1,6 +1,6 @@
 import { useState, useEffect  } from 'react';
 import { api } from '../../api.js';
-import { CardListWrapper, CardListSelectors, CardListSelectorField, CardListSelectorName, CardListSelector, CardListListWrapper } from './cardList-style.js';
+import { CardListWrapper, CardListSelectors, CardListSelectorField, CardListSelectorName, CardListSelector, CardListListContainer, CardListListWrapper } from './cardList-style.js';
 import SubmitButton from '../../components/SubmitButton';
 import Card from '../../components/Card';
 
@@ -73,12 +73,15 @@ export default function CardList() {
         })
 	};
 
+    // console.log(records);
+
     function record(card) {
-        api.record(card)
-        .then(() => {
-            api.getRecords()
-            .then(res => setRecords(res));
-        })
+        // console.log(card._id)
+        if (!records.includes(card._id))
+            setRecords([...records, card._id]);
+        else setRecords(records.filter(post => post !== card._id));
+
+        api.record(card);
     }
 
     return (
@@ -136,16 +139,18 @@ export default function CardList() {
                 </CardListSelectorField>
                 <SubmitButton handleSubmit={getCards}/>
             </CardListSelectors>
-            <CardListListWrapper>
-                {cards?.map(card =>
-                    <Card
-                        key={card._id}
-                        card={card}
-                        handleClick={() => record(card)}
-                        active={records.includes(card._id)}
-                    />
-                )}
-            </CardListListWrapper>
+            <CardListListContainer>
+                <CardListListWrapper>
+                    {cards?.map(card =>
+                        <Card
+                            key={card._id}
+                            card={card}
+                            handleClick={() => record(card)}
+                            active={records.includes(card._id)}
+                        />
+                    )}
+                </CardListListWrapper>
+            </CardListListContainer>
         </CardListWrapper>
     )
 }

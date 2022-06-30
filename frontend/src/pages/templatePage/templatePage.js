@@ -2,7 +2,7 @@ import { api } from '../../api.js';
 import { useState, useEffect, useRef } from 'react';
 import { exportComponentAsPNG } from 'react-component-export-image';
 import { useDrop } from 'react-dnd';
-import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateListContainer, TemplateEditor, TemplateEditHeader, TemplateEditField, TemplateEditTitle, TemplateEditSubtitle, TemplateEditList, TemplateEditSellField, TemplateEditPrice } from './templatePage-style.js';
+import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateListContainer, TemplateEditor, TemplateEditHeader, TemplateEditContainer, TemplateEditField, TemplateEditTitle, TemplateEditSubtitle, TemplateEditList, TemplateEditSellField, TemplateEditPrice } from './templatePage-style.js';
 import SubmitButton from '../../components/SubmitButton';
 import Card from '../../components/Card';
 
@@ -278,12 +278,14 @@ export default function Template() {
                     </TemplateSelectorField>
                     <SubmitButton handleSubmit={exportTemplate} />
                 </TemplateEditHeader>
-                <TemplateEditField ref={componentRef}>
-                    {group && album && <TemplateEditTitle>{group.name} ▪︎ {album.name}</TemplateEditTitle>}
-                    {template === 'exchange' && <ExchangeTemplate rmCardFromList={rmCardFromList} records={records} />}
-                    {template === 'sell' && <SellTemplate rmCardFromList={rmCardFromList} records={records} />}
-                    {template === 'buy' && <BuyTemplate rmCardFromList={rmCardFromList} records={records} />}
-                </TemplateEditField>
+                <TemplateEditContainer>
+                    <TemplateEditField ref={componentRef}>
+                        {group && album && <TemplateEditTitle>{group.name} ▪︎ {album.name}</TemplateEditTitle>}
+                        {template === 'exchange' && <ExchangeTemplate rmCardFromList={rmCardFromList} records={records} />}
+                        {template === 'sell' && <SellTemplate rmCardFromList={rmCardFromList} records={records} />}
+                        {template === 'buy' && <BuyTemplate rmCardFromList={rmCardFromList} records={records} />}
+                    </TemplateEditField>
+                </TemplateEditContainer>
             </TemplateEditor>
         </TemplateWrapper>
     )

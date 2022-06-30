@@ -13,6 +13,10 @@ export const PostWrapper = styled.div `
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @media screen and (max-width: 500px) {
+        width: 90%;
+    }
 `
 
 export const PostImg = styled.img `
@@ -21,6 +25,11 @@ export const PostImg = styled.img `
 
     background-color: #F2F2F2;
     backgroune-size: contain;
+
+    @media screen and (max-width: 500px) {
+        max-width: 200px;
+        max-height: 200px;
+    }
 `
 
 export const PostUpload = styled.input `

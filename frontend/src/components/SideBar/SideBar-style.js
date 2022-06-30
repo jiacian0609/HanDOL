@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const SideBarWrapper = styled.div `
-    width: ${props => props.show ? '200px' : '80px'} ;
+    width: ${props => props.show ? '200px' : '80px'};
     height: 100%;
 
     position: fixed;
@@ -17,6 +17,12 @@ export const SideBarWrapper = styled.div `
     background-color: #E9DBC7;
 
     transition: 0.5s ease;
+
+    @media screen and (max-width: 500px) {
+        width: 200px;
+        transform: ${props => props.show ? 'translate(0)' : 'translate(-100%)'};
+        box-shadow: ${props => props.show ? '500px 0 0 500px rgba(0, 0, 0, 0.4)' : '' };
+    }
 `
 
 export const SideBarTopButtons = styled.div `
@@ -32,6 +38,22 @@ export const SideBarDownButtons = styled.div `
     display: flex;
     flex-direction: column;
     gap: 24px;
+`
+
+export const SideBarTitleButton = styled.div `
+    width: 30px;
+    height: 30px;
+    padding: 0;
+
+    color: #FFFFFF;
+
+    background-image: url('/icons/${props => props.src}.png');
+    background-size: cover;
+    border: none;
+
+    @media screen and (max-width: 500px) {
+        display: none;
+    }
 `
 
 export const SideBarButton = styled.div `
