@@ -4,7 +4,7 @@ import { ProfileWrapper, ProfileInfo, ProfileImg, ProfileUsername, ProfileButton
 import Post from '../../components/Post';
 import SubmitButton from '../../components/SubmitButton';
 
-function UploadImg(setSetting) {
+function UploadImg({setSetting}) {
     const [image, setImage] = useState();
     const [imgURL, setImgURL] = useState();
 
@@ -25,7 +25,7 @@ function UploadImg(setSetting) {
             window.location.reload();
 		})
 		.catch(err => {
-            // console.log(err);
+            console.log(err);
             if (err.code === 'ERR_BAD_RESPONSE')
                 window.alert('Please upload an image. (jpg/jpeg/png)');
 			else window.alert(err.response.data.message);
