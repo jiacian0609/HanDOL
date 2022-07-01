@@ -3,12 +3,12 @@ import styled from 'styled-components';
 export const CardListWrapper = styled.div `
     width: 100%;
     height: 100%;
-    // padding: 50px 0;
+    padding: 50px 0;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
 
     @media screen and (max-width: 500px) {
         padding: 20px 0;

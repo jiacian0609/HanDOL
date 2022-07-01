@@ -20,7 +20,7 @@ export const TemplateWrapper = styled.div `
 `
 
 export const TemplateSelectors = styled.div `
-    width: 100%;
+    // width: 100%;
     // height: 100%;
 
     display: flex;
@@ -86,7 +86,7 @@ export const TemplateListContainer = styled.div `
 
 export const TemplateEditor = styled.div `
     width: 850px;
-    height: 300px;
+    // height: 300px;
 
     margin-left: 50px;
     
@@ -111,13 +111,15 @@ export const TemplateEditHeader = styled.div `
 `
 
 export const TemplateEditContainer = styled.div `
+    overflow-x: scroll;
+    overflow-y: scroll;
+
+
     @media screen and (max-width: 500px) {
         width: 100%;
         height: fit-content;
         margin-top: 5px;
-        margin-left: 0;
-        overflow-x: scroll;
-        overflow-y: scroll;
+        margin-left: 0;  
     }
 `
 
