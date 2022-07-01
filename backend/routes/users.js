@@ -498,6 +498,7 @@ const upload3 = multer({
   fileFilter(req, file, cb) {
     // 只接受三種圖片格式
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      console.log(file.originalname);
       cb(new Error('Please upload an image.'))
     }
     cb(null, true)

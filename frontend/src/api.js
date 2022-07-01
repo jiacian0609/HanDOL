@@ -174,6 +174,7 @@ export const api = {
         )
     },
     profileImg(image) {
+        // console.log(image);
         return (
             axios.post(hostname + '/users/profileImg', {
                 image: image

@@ -17,6 +17,7 @@ function UploadImg(setSetting) {
     }
 
     function handleSubmit() {
+        // console.log(image.type === 'image/*');
         api.profileImg(image)
         .then(res => {
             window.alert(res);
