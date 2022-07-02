@@ -176,7 +176,7 @@ export const api = {
     profileImg(image) {
         // console.log(image);
         return (
-            axios.post(hostname + '/users/profileImg', {
+            axios.post('http://52.37.140.157:3000/users/profileImg', {
                 image: image
             }, {
                 headers: {
