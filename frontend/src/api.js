@@ -127,7 +127,6 @@ export const api = {
             })
             .then(res => {
                 window.localStorage.setItem('JWT', res.data.token);
-                // window.location.href = '/home';
             })
         )
     },

@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SideBarWrapper, SideBarTopButtons, SideBarDownButtons, SideBarField, SideBarTitleButton, SideBarButton, SideBarTitle, SideBarText } from './SideBar-style.js';
 
 export default function SideBar({showSideBar, setShowSideBar}) {
+    const navigate = useNavigate();
+
     function handleSignOut() {
         window.localStorage.clear();
-        window.location.href = '/';
+        navigate('/');
     }
 
     return (
