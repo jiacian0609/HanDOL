@@ -21,7 +21,7 @@ export default function Index() {
         const account = username ? username : email;
         api.signIn(account, password)
         .catch(err => {
-            toast.update(id, {type: toast.TYPE.ERROR, render: err.response.data.message, isLoading: false, autoClose: 5000})
+            toast.update(id, {type: toast.TYPE.ERROR, render: err.response.data.message, isLoading: false, autoClose: 5000, closeButton: true})
         });
 	}
 
@@ -29,11 +29,11 @@ export default function Index() {
         const id = toast.loading('Signing up...');
         api.signUp(username, email, password)
         .then(res => {
-            toast.update(id, {type: toast.TYPE.SUCCESS, render: res.message, isLoading: false, autoClose: 5000});
+            toast.update(id, {type: toast.TYPE.SUCCESS, render: res.message, isLoading: false, autoClose: 5000, closeButton: true});
             window.localStorage.setItem('JWT', res.JWT);
         })
         .catch(err =>
-            toast.update(id, {type: toast.TYPE.ERROR, render: err.response.data.message, isLoading: false, autoClose: 5000})
+            toast.update(id, {type: toast.TYPE.ERROR, render: err.response.data.message, isLoading: false, autoClose: 5000, closeButton: true})
         );
 	}
 
