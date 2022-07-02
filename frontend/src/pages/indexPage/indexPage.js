@@ -1,5 +1,6 @@
 import { api } from '../../api.js';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { IndexWrapper, IndexTitle, IndexDivider, IndexForm, IndexButtons, IndexButton, IndexFormField, IndexText, IndexInput } from './indexPage-style.js';
 import SubmitButton from '../../components/SubmitButton';
 
@@ -16,12 +17,22 @@ export default function Index() {
     }
 
     function handleSignIn (username, email, password) {
+        const id = toast('Signing in...');
         const account = username ? username : email;
-        api.signIn(account, password);
+        api.signIn(account, password)
+        .catch(err => {
+            toast.update(id, {type: toast.TYPE.INFO, render: err.response.data.message});
+        });
 	}
 
     function handleSignUp (username, email, password) {
-        api.signUp(username, email, password);
+        const id = toast('Signing up...');
+        api.signUp(username, email, password)
+        .then(res => {
+            toast.update(id, {type: toast.TYPE.SUCCESS, render: res.message});
+            window.localStorage.setItem('JWT', res.JWT);
+        })
+        .catch(err => toast.update(id, {type: toast.TYPE.INFO, render: err.response.data.message}));
 	}
 
     return (
