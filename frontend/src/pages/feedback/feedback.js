@@ -23,9 +23,9 @@ export default function Feedback() {
             document.getElementById('image').value = '';
         })
         .catch(err => {
-            console.log(err);
-                if (err.code === 'ERR_BAD_RESPONSE')
-                    toast.update(id, {type: toast.TYPE.ERROR, render: 'Please upload an image. (jpg/jpeg/png)', isLoading: false, autoClose: 5000, closeButton: true})
+            // console.log(err);
+            if (err.code === 'ERR_BAD_RESPONSE')
+                toast.update(id, {type: toast.TYPE.ERROR, render: 'Please upload an image. (jpg/jpeg/png)', isLoading: false, autoClose: 5000, closeButton: true})
             else toast.update(id, {type: toast.TYPE.ERROR, render: err.response.data.message, isLoading: false, autoClose: 5000, closeButton: true})
         })
     }
