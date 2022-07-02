@@ -1,5 +1,6 @@
 import { api } from '../../api.js';
 import { useState, useEffect, useRef } from 'react';
+import { toast } from 'react-toastify';
 import { exportComponentAsPNG } from 'react-component-export-image';
 import { useDrop } from 'react-dnd';
 import { TemplateWrapper, TemplateSelectors, TemplateSelectorField, TemplateSelectorName, TemplateSelector, TemplateListWrapper, TemplateListContainer, TemplateEditor, TemplateEditHeader, TemplateEditContainer, TemplateEditField, TemplateEditTitle, TemplateEditSubtitle, TemplateEditList, TemplateEditSellField, TemplateEditPrice } from './templatePage-style.js';
@@ -122,6 +123,11 @@ export default function Template() {
     const [cards, setCards] = useState([]);
     const [records, setRecords] = useState([]);
 
+    useEffect(() => {
+        toast.loading('Loading options...', {toastId: 'template'});
+        if (version) toast.update('template', {type: toast.TYPE.SUCCESS, render: 'Done! Select your photocards now :)', isLoading: false, autoClose: 5000, closeButton: true})
+    }, [version]);
+
     /* for editor */
     const [template, setTemplate] = useState('exchange');
 
@@ -164,6 +170,7 @@ export default function Template() {
     }, [album]);
 
     function getCards() {
+        const id = toast.loading('Getting photocards...');
         let query;
         if (member !== undefined && version !== undefined)
             query = {group: group.name, member: member._id, album: album.name, version: version._id};
@@ -179,6 +186,7 @@ export default function Template() {
             
             api.getRecords()
             .then(res => setRecords(res));
+            toast.update(id, {type: toast.TYPE.SUCCESS, render: 'Done! Drag photocards into templates :)', isLoading: false, autoClose: 5000, closeButton: true})
         })
 	};
 

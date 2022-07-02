@@ -1,9 +1,12 @@
 import { api } from '../../api';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { HomeWrapper, HomeButton } from './home-style';
 import Post from '../../components/Post';
 
 export default function Home() {
+    const navigate = useNavigate();
+
     const [posts, setPosts] = useState([]);
     const [likes, setLikes] = useState([]);
 
@@ -18,7 +21,7 @@ export default function Home() {
 
     /* create post */
     function handleClick() {
-        window.location.href = '/post';
+        navigate('/post');
     }
 
     function like(post_id) {

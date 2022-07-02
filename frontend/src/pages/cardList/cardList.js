@@ -1,4 +1,5 @@
 import { useState, useEffect  } from 'react';
+import { toast } from 'react-toastify';
 import { api } from '../../api.js';
 import { CardListWrapper, CardListSelectors, CardListSelectorField, CardListSelectorName, CardListSelector, CardListListContainer, CardListListWrapper } from './cardList-style.js';
 import SubmitButton from '../../components/SubmitButton';
@@ -16,7 +17,10 @@ export default function CardList() {
     const [cards, setCards] = useState([]);
     const [records, setRecords] = useState([]);
 
-    // console.log(records);
+    useEffect(() => {
+        toast.loading('Loading options...', {toastId: 'list'});
+        if (version) toast.update('list', {type: toast.TYPE.SUCCESS, render: 'Done! Select your photocards now :)', isLoading: false, autoClose: 5000, closeButton: true})
+    }, [version]);
 
     useEffect(() => {
         if (!group)
@@ -46,6 +50,7 @@ export default function CardList() {
     }, [member]);
 
     useEffect(() => {
+        
         if (album)
             api.getVersions(album._id)
             .then(res => {
@@ -55,6 +60,7 @@ export default function CardList() {
     }, [album]);
 
     function getCards() {
+        const id = toast.loading('Getting photocards...');
         let query;
         if (member !== undefined && version !== undefined)
             query = {group: group.name, member: member._id, album: album.name, version: version._id};
@@ -70,6 +76,7 @@ export default function CardList() {
             
             api.getRecords()
             .then(res => setRecords(res));
+            toast.update(id, {type: toast.TYPE.SUCCESS, render: 'Done! Click photocards to record what you have :)', isLoading: false, autoClose: 5000, closeButton: true})
         })
 	};
 
