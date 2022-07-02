@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import './App.css';
+import './styles/ReactToastify.css';
 
 import Index from './pages/indexPage';
 
@@ -13,21 +15,24 @@ import Feedback from './pages/feedback';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path='/' element={<Index />} />
-          <Route path='' element={<Layout />}>
-            <Route path='/home' element={<Home />} />
-            <Route path='/post' element={<CreatePost />} />
-            <Route path='/cardlist' element={<CardList />} />
-            <Route path='/template' element={<Template />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/feedback' element={<Feedback />} />
-          </Route>
-        </Routes>
-      </div>
-    </Router>
+    <>
+      <ToastContainer />
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path='/' element={<Index />} />
+            <Route path='' element={<Layout />}>
+              <Route path='/home' element={<Home />} />
+              <Route path='/post' element={<CreatePost />} />
+              <Route path='/cardlist' element={<CardList />} />
+              <Route path='/template' element={<Template />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/feedback' element={<Feedback />} />
+            </Route>
+          </Routes>
+        </div>
+      </Router>
+    </>
   );
 }
 
