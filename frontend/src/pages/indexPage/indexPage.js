@@ -1,10 +1,13 @@
 import { api } from '../../api.js';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { IndexWrapper, IndexTitle, IndexDivider, IndexForm, IndexButtons, IndexButton, IndexFormField, IndexText, IndexInput } from './indexPage-style.js';
 import SubmitButton from '../../components/SubmitButton';
 
 export default function Index() {
+    const navigate = useNavigate();
+
     const [signIn, setSignIn] = useState(true);
 
     function handleSubmit() {
@@ -20,6 +23,10 @@ export default function Index() {
         const id = toast.loading('Signing in...');
         const account = username ? username : email;
         api.signIn(account, password)
+        .then(res => {
+            toast.update(id, {type: toast.TYPE.SUCCESS, render: 'Successfully signed in!', isLoading: false, autoClose: 5000, closeButton: true})
+            navigate('home');
+        })
         .catch(err => {
             toast.update(id, {type: toast.TYPE.ERROR, render: err.response.data.message, isLoading: false, autoClose: 5000, closeButton: true})
         });

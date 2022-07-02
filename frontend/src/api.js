@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const hostname = 'http://52.37.140.157:3000';
+
 export const api = {
     getGroups() {
         return (
@@ -124,13 +126,8 @@ export const api = {
                 'password': password
             })
             .then(res => {
-                // console.log(res.data);
-                // window.alert(res.data.message);
                 window.localStorage.setItem('JWT', res.data.token);
-                window.location.href = '/home';
-            })
-            .catch(err => {
-                window.alert(err.response.data.message);
+                // window.location.href = '/home';
             })
         )
     },
@@ -141,14 +138,7 @@ export const api = {
                 'email': email,
                 'password': password
             })
-            .then(res => {
-                window.alert(res.data.message);
-                window.localStorage.setItem('JWT', res.data.JWT)
-                // window.location.href = "/home"
-            })
-            .catch(err => {
-                window.alert(err.response.data.message);
-            })
+            .then(res => res.data)
         )
     },
     getUserInfo() {
@@ -206,7 +196,7 @@ export const api = {
             })
             .then(res => res)
             .catch(err => {
-                window.alert(err.response.data.message);
+                toast.error(err.response.data.message);
             })
         )
     }
