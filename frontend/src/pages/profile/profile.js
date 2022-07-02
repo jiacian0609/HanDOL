@@ -62,7 +62,7 @@ export default function Profile() {
         api.getUserInfo()
         .then(res => {
             setUsername(res.username);
-            if (res.image) setImg('http://52.42.38.39/' + res.image);
+            if (res.image) setImg('http://52.37.140.157:3000/' + res.image);
         });
     }, []);
 
