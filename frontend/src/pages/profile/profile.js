@@ -59,11 +59,11 @@ export default function Profile() {
     const [posts, setPosts] = useState([]);
     const [likes, setLikes] = useState([]);
 
-    useEffect(() => {}, [settings]);
+    // useEffect(() => {}, [settings]);
 
     useEffect(() => {
-        toast.loading('Loading your profile...', {toastId: 0});
-        if (posts) toast.update(0, {type: toast.TYPE.SUCCESS, render: 'Done!', isLoading: false, autoClose: 5000, closeButton: true})
+        toast.loading('Loading your profile...', {toastId: 'profile'});
+        if (posts[0]) toast.update('profile', {type: toast.TYPE.SUCCESS, render: 'Done!', isLoading: false, autoClose: 5000, closeButton: true})
     }, [posts]);
 
     useEffect(() => {

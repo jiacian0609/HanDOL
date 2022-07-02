@@ -18,8 +18,8 @@ export default function CardList() {
     const [records, setRecords] = useState([]);
 
     useEffect(() => {
-        toast.loading('Loading options...', {toastId: 0});
-        if (version) toast.update(0, {type: toast.TYPE.SUCCESS, render: 'Done! Select your photocards now :)', isLoading: false, autoClose: 5000, closeButton: true})
+        toast.loading('Loading options...', {toastId: 'list'});
+        if (version) toast.update('list', {type: toast.TYPE.SUCCESS, render: 'Done! Select your photocards now :)', isLoading: false, autoClose: 5000, closeButton: true})
     }, [version]);
 
     useEffect(() => {
