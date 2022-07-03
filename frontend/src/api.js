@@ -119,10 +119,10 @@ export const api = {
             .catch(err => console.log(err))
         )
     },
-    signIn(account, password) {
+    signIn(email, password) {
         return (
             axios.post(hostname + '/users/signin', {
-                'account': account,
+                'email': email,
                 'password': password
             })
             .then(res => {

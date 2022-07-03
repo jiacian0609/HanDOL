@@ -93,11 +93,11 @@ router.get('/signin', async function (req, res, next) {
 router.post('/signin', async function (req, res, next) {
   // console.log(req);
 
-  const account = req.body.account;
+  const account = req.body.email;
   const password = req.body.password;
 
   // check if all the information is filled
-  if (!account) return res.status(400).send({message: 'Please enter your username or email.'});
+  if (!email) return res.status(400).send({message: 'Please enter your email.'});
   if (!password) return res.status(400).send({message: 'Please enter your password.'});
 
   let token;
@@ -109,16 +109,10 @@ router.post('/signin', async function (req, res, next) {
     const database = db.db('HanDOL');
     const users = database.collection('users');
 
-    // check if the username has been signed up
-    let query = { username: account };
-    let options = { projection: { _id: 1, password: 1 } };
-    let user = await users.findOne(query, options); 
-    if (!user) {
-      // check if the email has been signed up
-      query = { email: account };
-      user = await users.findOne(query, options);
-      if (!user) return res.status(400).send({message: 'The username or email hasn\'t been signed up.'});
-    }
+    // check if the email has been signed up
+    const query = { email: account };
+    const user = await users.findOne(query);
+    if (!user) return res.status(400).send({message: 'The email hasn\'t been signed up.'});
 
     // compare password
     await bcrypt.compare(password, user.password)

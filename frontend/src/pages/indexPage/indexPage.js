@@ -5,6 +5,41 @@ import { toast } from 'react-toastify';
 import { IndexWrapper, IndexTitle, IndexDivider, IndexForm, IndexButtons, IndexButton, IndexFormField, IndexText, IndexInput } from './indexPage-style.js';
 import SubmitButton from '../../components/SubmitButton';
 
+function Form({signIn}) {
+    if (signIn) {
+        return (
+            <>
+                <IndexFormField>
+                    <IndexText>Email</IndexText>
+                    <IndexInput id='email' />
+                </IndexFormField>
+                <IndexFormField>
+                    <IndexText>Password</IndexText>
+                    <IndexInput id='password' type='password' />
+                </IndexFormField>
+            </>
+        )
+    }
+    else {
+        return (
+            <>
+                <IndexFormField>
+                    <IndexText>Username</IndexText>
+                    <IndexInput id='username' />
+                </IndexFormField>
+                <IndexFormField>
+                    <IndexText>Email</IndexText>
+                    <IndexInput id='email' />
+                </IndexFormField>
+                <IndexFormField>
+                    <IndexText>Password</IndexText>
+                    <IndexInput id='password' type='password' />
+                </IndexFormField>
+            </>
+        )
+    }
+}
+
 export default function Index() {
     const navigate = useNavigate();
 
@@ -15,14 +50,13 @@ export default function Index() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        if (signIn) handleSignIn(username, email, password);
+        if (signIn) handleSignIn(email, password);
         else handleSignUp(username, email, password);
     }
 
-    function handleSignIn (username, email, password) {
+    function handleSignIn (email, password) {
         const id = toast.loading('Signing in...');
-        const account = username ? username : email;
-        api.signIn(account, password)
+        api.signIn(email, password)
         .then(res => {
             toast.update(id, {type: toast.TYPE.SUCCESS, render: 'Successfully signed in!', isLoading: false, autoClose: 5000, closeButton: true})
             navigate('home');
@@ -63,18 +97,7 @@ export default function Index() {
                         Sign Up
                     </IndexButton>
                 </IndexButtons>
-                <IndexFormField>
-                    <IndexText>Username</IndexText>
-                    <IndexInput id='username' />
-                </IndexFormField>
-                <IndexFormField>
-                    <IndexText>Email</IndexText>
-                    <IndexInput id='email' />
-                </IndexFormField>
-                <IndexFormField>
-                    <IndexText>Password</IndexText>
-                    <IndexInput id='password' type='password' />
-                </IndexFormField>
+                <Form signIn={signIn} />
             </IndexForm>
             <SubmitButton handleSubmit={handleSubmit} />
         </IndexWrapper>
