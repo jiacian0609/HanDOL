@@ -93,7 +93,7 @@ router.get('/signin', async function (req, res, next) {
 router.post('/signin', async function (req, res, next) {
   // console.log(req);
 
-  const account = req.body.email;
+  const email = req.body.email;
   const password = req.body.password;
 
   // check if all the information is filled
