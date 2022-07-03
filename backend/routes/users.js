@@ -93,7 +93,7 @@ router.get('/signin', async function (req, res, next) {
 router.post('/signin', async function (req, res, next) {
   // console.log(req);
 
-  const account = req.body.email;
+  const email = req.body.email;
   const password = req.body.password;
 
   // check if all the information is filled
@@ -110,7 +110,7 @@ router.post('/signin', async function (req, res, next) {
     const users = database.collection('users');
 
     // check if the email has been signed up
-    const query = { email: account };
+    const query = { email: email };
     const user = await users.findOne(query);
     if (!user) return res.status(400).send({message: 'The email hasn\'t been signed up.'});
 
