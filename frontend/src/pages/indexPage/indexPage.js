@@ -46,12 +46,17 @@ export default function Index() {
     const [signIn, setSignIn] = useState(true);
 
     function handleSubmit() {
-        const username = document.getElementById('username').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        if (signIn) handleSignIn(email, password);
-        else handleSignUp(username, email, password);
+        if (signIn) {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            handleSignIn(email, password);
+        }
+        else {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            handleSignUp(username, email, password);
+        }
     }
 
     function handleSignIn (email, password) {
