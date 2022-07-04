@@ -77,6 +77,10 @@ export default function Index() {
         .then(res => {
             toast.update(id, {type: toast.TYPE.SUCCESS, render: res.message, isLoading: false, autoClose: 5000, closeButton: true});
             window.localStorage.setItem('JWT', res.JWT);
+            document.getElementById('username').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            setSignIn(true);
         })
         .catch(err =>
             toast.update(id, {type: toast.TYPE.ERROR, render: err.response.data.message, isLoading: false, autoClose: 5000, closeButton: true})
