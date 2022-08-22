@@ -27,5 +27,5 @@ npm install
 If you are going to use the backend server that runs on the localhost, open `/frontend/src/api.js` and change the `hostname` into `http://localhost:3000`.
 ```shell=
 cd frontend
-npm start PORT=3001
+npm start
 ```
