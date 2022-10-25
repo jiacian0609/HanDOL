@@ -18,6 +18,8 @@
   "homepage": "https://github.com/jiacian0609/HanDOL#readme",
   "dependencies": {
     "create-react-app": "^5.0.1",
-    "express-generator": "^4.16.1"
+    "ejs": "^3.1.7",
+    "express-generator": "^4.16.1",
+    "minimatch": "^3.0.5"
   }
 }
