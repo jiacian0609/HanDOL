@@ -2,7 +2,7 @@
 AppWorks School Campus Program #1  
 Personal Porject
 
-[Demo Link](http://52.37.140.157)
+<!-- [Demo Link](http://52.37.140.157) -->
 
 ## Backend
 ### Install Packages
